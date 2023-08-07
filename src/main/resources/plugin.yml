@@ -1,0 +1,4 @@
+name: SMP V1.0
+version: '${project.version}'
+main: de.bellobodo.smpv1.SMPV1
+api-version: '1.20'
