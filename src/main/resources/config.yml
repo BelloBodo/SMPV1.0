@@ -1,7 +1,9 @@
 clans:
   1:
-    - BelloBodo
-    - MiniTobi
+    leader:
+    members:
+      - BelloBodo
+      - MiniTobi
   2:
     - Lost
 söldner:
