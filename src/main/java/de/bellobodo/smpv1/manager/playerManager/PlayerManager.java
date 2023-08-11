@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class PlayerManager {
@@ -70,6 +71,8 @@ public class PlayerManager {
     private HashSet<UUID> söldner = new HashSet<>();
 
     private HashSet<UUID> spectators = new HashSet<>();
+
+    //Methods for adding Positions to whitlistedPlayers, clans, söldner, spectators
 
     public boolean createClan(String clanName) {
         for (Clan clan:clans) {
@@ -171,6 +174,35 @@ public class PlayerManager {
         return removeFromConfigFileList("spectator", uuid.toString());
     }
 
+    //Additional Method for working with Clans
+    @Nullable
+    public HashSet<UUID> getPlayersInClan(String clanName) {
+        for (Clan clan:clans) {
+            if (clan.getName() == clanName) {
+                HashSet<UUID> hashSet = clan.getMembers();
+                hashSet.add(clan.getLeader());
+
+                return hashSet;
+            }
+        }
+        return null;
+    }
+
+    public PlayerRole getPlayerRole(UUID uuid) {
+        for (Clan clan:clans) if (clan.getMembers().contains(uuid) || clan.getLeader() == uuid) return PlayerRole.CLAN;
+        if (söldner.contains(uuid)) return PlayerRole.SÖLDNER;
+        else if (spectators.contains(uuid)) return PlayerRole.SPECTATOR;
+        else return PlayerRole.UNSPECIFIED;
+    }
+
+    @Nullable
+    public String getClanOfPlayer(UUID uuid) {
+        for (Clan clan:clans) if (clan.getMembers().contains(uuid) || clan.getLeader() == uuid) return clan.getName();
+        return null;
+    }
+
+
+    //Private Methods for writing in the config File
     private boolean addToConfigFileList(String location, String uuid) {
         Set<String> stringSet = new HashSet<>(Objects.requireNonNull(config.getStringList(location)));
          final boolean result = stringSet.add(uuid);
