@@ -11,17 +11,17 @@ public class GameManager {
     public GameManager(SMPV1 smpv1) {
         this.smpv1 = smpv1;
 
-        flagManager = new FlagManager(smpv1);
-        playerManager = new PlayerManager(smpv1);
+        this.flagManager = new FlagManager(smpv1);
+        this.playerManager = new PlayerManager(smpv1);
     }
 
     private FlagManager flagManager;
 
+    private PlayerManager playerManager;
+
     public FlagManager getFlagManager() {
         return flagManager;
     }
-
-    private PlayerManager playerManager;
 
     public PlayerManager getPlayerManager() {
         return playerManager;

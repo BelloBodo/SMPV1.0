@@ -32,4 +32,8 @@ public final class SMPV1 extends JavaPlugin {
     public String getPrefix() {
         return ChatColor.GRAY + "[" + ChatColor.DARK_AQUA + "SMP V1.0" + ChatColor.GRAY + "] ";
     }
+
+    public GameManager getGameManager() {
+        return gameManager;
+    }
 }

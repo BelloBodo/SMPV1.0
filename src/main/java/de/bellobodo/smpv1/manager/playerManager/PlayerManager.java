@@ -17,34 +17,35 @@ public class PlayerManager {
     public PlayerManager(SMPV1 smpv1) {
         this.smpv1 = smpv1;
 
-        config = smpv1.getConfig();
+        this.config = smpv1.getConfig();
 
         //Create Clans from Config
         for (String configClans : config.getStringList("clans")) {
             Clan clan = new Clan(configClans);
 
             UUID clanLeader = UUID.fromString(Objects.requireNonNull(config.getString("clans." + configClans + ".leader")));
-            whitlistedPlayers.add(clanLeader);
+            this.whitlistedPlayers.add(clanLeader);
 
             for (String configMembers:config.getStringList("clans." + configClans + ".member")) {
                 UUID clanMember = UUID.fromString(configMembers);
                 clan.addMember(clanMember);
-                whitlistedPlayers.add(clanMember);
+                this.whitlistedPlayers.add(clanMember);
             }
+            this.clans.add(clan);
         }
 
         //Create Söldner from Config
         for (String configSöldner : config.getStringList("söldner")) {
-            söldner.add(UUID.fromString(configSöldner));
+            this.söldner.add(UUID.fromString(configSöldner));
 
-            whitlistedPlayers.add(UUID.fromString(configSöldner));
+            this.whitlistedPlayers.add(UUID.fromString(configSöldner));
         }
 
         //Create Spectator from Config
         for (String configSpectator : config.getStringList("spectator")) {
-            spectators.add(UUID.fromString(configSpectator));
+            this.spectators.add(UUID.fromString(configSpectator));
 
-            whitlistedPlayers.add(UUID.fromString(configSpectator));
+            this.whitlistedPlayers.add(UUID.fromString(configSpectator));
         }
 
         reloadWhitelist();
@@ -72,15 +73,15 @@ public class PlayerManager {
 
     private HashSet<UUID> spectators = new HashSet<>();
 
-    //Methods for adding Positions to whitlistedPlayers, clans, söldner, spectators
 
+    //Methods for adding Positions to whitlistedPlayers, clans, söldner, spectators
     public boolean createClan(String clanName) {
         for (Clan clan:clans) {
             if (clan.getName() == clanName) {
                 return false;
             }
         };
-        clans.add(new Clan(clanName));
+        this.clans.add(new Clan(clanName));
 
         config.set("clans." + clanName + ".leader", "");
         config.set("clans." + clanName + ".member", new HashSet<>());
@@ -92,12 +93,12 @@ public class PlayerManager {
         for (Clan clan:clans) {
             if (clan.getName() == clanName) {
                 for (UUID uuid:clan.getMembers()) {
-                    whitlistedPlayers.remove(uuid);
+                    this.whitlistedPlayers.remove(uuid);
                 }
 
-                whitlistedPlayers.remove(clan.getLeader());
+                this.whitlistedPlayers.remove(clan.getLeader());
 
-                clans.remove(clan);
+                this.clans.remove(clan);
                 config.set("clans." + clanName, null);
                 return true;
             }
@@ -115,7 +116,7 @@ public class PlayerManager {
                     addToConfigFileList("clans." + clanName + ".members", clan.getLeader().toString());
                 }
                 clan.setLeader(uuid);
-                whitlistedPlayers.add(uuid);
+                this.whitlistedPlayers.add(uuid);
 
                 config.set("clans." + clanName + ".leader", uuid.toString());
                 return true;
@@ -128,7 +129,7 @@ public class PlayerManager {
         for (Clan clan:clans) {
             if (clan.getName() == clanName) {
                 clan.addMember(uuid);
-                whitlistedPlayers.add(uuid);
+                this.whitlistedPlayers.add(uuid);
 
                 addToConfigFileList("clans." + clanName + ".members", uuid.toString());
                 return true;
@@ -141,7 +142,7 @@ public class PlayerManager {
         for (Clan clan:clans) {
             if (clan.getName() == clanName) {
                 clan.removeMember(uuid);
-                whitlistedPlayers.remove(uuid);
+                this.whitlistedPlayers.remove(uuid);
 
                 removeFromConfigFileList("clans." + clanName + ".members", uuid.toString());
                 return true;
@@ -151,28 +152,29 @@ public class PlayerManager {
     }
 
     public boolean addSöldner(UUID uuid) {
-        söldner.add(uuid);
-        whitlistedPlayers.add(uuid);
+        this.söldner.add(uuid);
+        this.whitlistedPlayers.add(uuid);
         return addToConfigFileList("söldner", uuid.toString());
     }
 
     public boolean removeSöldner(UUID uuid) {
-        söldner.remove(uuid);
-        whitlistedPlayers.remove(uuid);
+        this.söldner.remove(uuid);
+        this.whitlistedPlayers.remove(uuid);
         return removeFromConfigFileList("söldner", uuid.toString());
     }
 
     public boolean addSpectator(UUID uuid) {
-        spectators.add(uuid);
-        whitlistedPlayers.add(uuid);
+        this.spectators.add(uuid);
+        this.whitlistedPlayers.add(uuid);
         return addToConfigFileList("spectator", uuid.toString());
     }
 
     public boolean removeSpectator(UUID uuid) {
-        spectators.remove(uuid);
-        whitlistedPlayers.remove(uuid);
+        this.spectators.remove(uuid);
+        this.whitlistedPlayers.remove(uuid);
         return removeFromConfigFileList("spectator", uuid.toString());
     }
+
 
     //Additional Method for working with Clans
     @Nullable
