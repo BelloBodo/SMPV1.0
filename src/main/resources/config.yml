@@ -1,3 +1,4 @@
+#Edit the Player Roles
 clans:
   1:
     leader:
@@ -10,4 +11,55 @@ söldner:
 
 spectator:
 
+#Edit the Effects
+clanFlagHolderEffects:
+  speed: 0
+  haste: 1
+  strength: 0
+  jump_boost: 0
+  regeneration: 0
+  resistance: 0
+  health_boost: 0
+  luck: 0
+  dolphins_grace: 0
+  hero_of_the_village: 0
 
+  slowness: 1
+  weakness: 1
+  bad_luck: 2
+
+  glowing: 1
+clanMemberEffects:
+  speed: 1
+  haste: 1
+  strength: 0
+  jump_boost: 0
+  regeneration: 0
+  resistance: 0
+  health_boost: 0
+  luck: 2
+  dolphins_grace: 0
+  hero_of_the_village: 2
+
+  slowness: 0
+  weakness: 0
+  bad_luck: 0
+
+  glowing: 0
+söldnerEffects:
+  speed: 1
+  haste: 1
+  strength: 0
+  jump_boost: 0
+  regeneration: 0
+  resistance: 1
+  health_boost: 2
+  luck: 2
+  dolphins_grace: 0
+  hero_of_the_village: 0
+
+  slowness: 0
+  weakness: 0
+  bad_luck: 0
+
+  glowing: 1
