@@ -217,7 +217,9 @@ public class FlagManager {
         this.flagHolderPlayerRole = smpv1.getGameManager().getPlayerManager().getPlayerRole(flagHolder);
     }
 
-    //GETTER & SETTER TODO
+    public PlayerRole getFlagHolderPlayerRole() {
+        return flagHolderPlayerRole;
+    }
 
     public void setFlagHolder(UUID uuid) {
         this.flagHolder = uuid;
@@ -231,6 +233,10 @@ public class FlagManager {
         } else {
             this.clanMembers = null;
         }
+    }
+
+    public UUID getFlagHolder() {
+        return this.flagHolder;
     }
 
     public void giveEffects() {
