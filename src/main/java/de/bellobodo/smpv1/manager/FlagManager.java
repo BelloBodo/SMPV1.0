@@ -12,6 +12,7 @@ import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.potion.PotionEffect;
@@ -208,38 +209,61 @@ public class FlagManager {
 
     private PlayerRole flagHolderPlayerRole;
 
+    private UUID flagHolder;
+
+    private HashSet<UUID> clanMembers;
+
     private void updateFlagHolderPlayerRole() {
         this.flagHolderPlayerRole = smpv1.getGameManager().getPlayerManager().getPlayerRole(flagHolder);
     }
 
-    private UUID flagHolder;
-
-    private HashSet<UUID> clanMembers;
+    //GETTER & SETTER TODO
 
     public void setFlagHolder(UUID uuid) {
         this.flagHolder = uuid;
         updateFlagHolderPlayerRole();
 
-        PlayerManager playerManager = smpv1.getGameManager().getPlayerManager();
 
         if (flagHolderPlayerRole == PlayerRole.CLAN) {
-            HashSet<UUID> hashSet = playerManager.getPlayersInClan(playerManager.getClanOfPlayer(uuid));
+            HashSet<UUID> hashSet = smpv1.getGameManager().getPlayerManager().getPlayersInClan(uuid);
             hashSet.remove(uuid);
-            clanMembers = hashSet;
+            this.clanMembers = hashSet;
         } else {
-            clanMembers = null;
+            this.clanMembers = null;
         }
     }
 
     public void giveEffects() {
         if (flagHolderPlayerRole == PlayerRole.CLAN) {
-            if (Bukkit.getOfflinePlayer(flagHolder).isOnline()) { //TODO
+            if (Bukkit.getOfflinePlayer(flagHolder).isOnline()) {
+
+                Player player =  Bukkit.getPlayer(flagHolder);
                 for (PotionEffect potionEffect:clanFlagHolderEffects) {
-                    if (Bukkit.getOfflinePlayer(flagHolder).isOnline()) Bukkit.getPlayer(flagHolder)
-                    Objects.requireNonNull(Bukkit.getPlayer(flagHolder)).addPotionEffect(potionEffect);
+                    player.addPotionEffect(potionEffect);
                 }
-                for (PotionEffect potionEffect:clanMemberEffects) {
-                    if (Bukkit.getOfflinePlayer(flagHolder).isOnline())
+
+
+                HashSet<UUID> hashSet = smpv1.getGameManager().getPlayerManager().getPlayersInClan(flagHolder);
+                hashSet.remove(flagHolder);
+                for (UUID uuid:hashSet) {
+                    if (!Bukkit.getOfflinePlayer(uuid).isOnline()) hashSet.remove(uuid);
+                }
+
+                for (UUID uuid:hashSet) {
+                    player = Bukkit.getPlayer(uuid);
+
+                    for (PotionEffect potionEffect:clanMemberEffects) {
+                        player.addPotionEffect(potionEffect);
+                    }
+                }
+
+            }
+        } else if (flagHolderPlayerRole == PlayerRole.SÖLDNER) {
+            if (Bukkit.getOfflinePlayer(flagHolder).isOnline()) {
+                Player player = Bukkit.getPlayer(flagHolder);
+
+                for (PotionEffect potionEffect:söldnerEffects) {
+                    player.addPotionEffect(potionEffect);
                 }
             }
         }

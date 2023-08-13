@@ -190,6 +190,19 @@ public class PlayerManager {
         return null;
     }
 
+    @Nullable
+    public HashSet<UUID> getPlayersInClan(UUID uuid) {
+        for (Clan clan:clans) {
+            if (clan.getName() == getClanOfPlayer(uuid)) {
+                HashSet<UUID> hashSet = clan.getMembers();
+                hashSet.add(clan.getLeader());
+
+                return hashSet;
+            }
+        }
+        return null;
+    }
+
     public PlayerRole getPlayerRole(UUID uuid) {
         for (Clan clan:clans) if (clan.getMembers().contains(uuid) || clan.getLeader() == uuid) return PlayerRole.CLAN;
         if (söldner.contains(uuid)) return PlayerRole.SÖLDNER;
