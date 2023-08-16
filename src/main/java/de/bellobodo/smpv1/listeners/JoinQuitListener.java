@@ -1,6 +1,7 @@
 package de.bellobodo.smpv1.listeners;
 
 import de.bellobodo.smpv1.SMPV1;
+import de.bellobodo.smpv1.manager.flagManager.FlagManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -16,6 +17,9 @@ public class JoinQuitListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        FlagManager flagManager = smpv1.getFlagManager();
+        if (flagManager.isFlagHolder(event.getPlayer().getUniqueId())) flagManager.giveEffects();
+
 
     }
 

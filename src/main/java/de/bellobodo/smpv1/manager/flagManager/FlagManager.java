@@ -1,4 +1,4 @@
-package de.bellobodo.smpv1.manager;
+package de.bellobodo.smpv1.manager.flagManager;
 
 import de.bellobodo.itemBuilder.ItemBuilder;
 import de.bellobodo.smpv1.SMPV1;
@@ -17,6 +17,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -201,11 +203,21 @@ public class FlagManager {
         }
 
         this.söldnerEffects = tempSöldnerEffects;
+
+        //Creation of BukkitRunnable
+        runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                giveEffects();
+            }
+        }.runTaskTimer(smpv1, 0, 180);
     }
 
     public boolean itemIsFlag(ItemStack item) {
         return flag == item;
     }
+
+    private FlagState flagState;
 
     private PlayerRole flagHolderPlayerRole;
 
@@ -213,8 +225,10 @@ public class FlagManager {
 
     private HashSet<UUID> clanMembers;
 
+    private BukkitTask runnable;
+
     private void updateFlagHolderPlayerRole() {
-        this.flagHolderPlayerRole = smpv1.getGameManager().getPlayerManager().getPlayerRole(flagHolder);
+        this.flagHolderPlayerRole = smpv1.getPlayerManager().getPlayerRole(flagHolder);
     }
 
     public PlayerRole getFlagHolderPlayerRole() {
@@ -227,12 +241,17 @@ public class FlagManager {
 
 
         if (flagHolderPlayerRole == PlayerRole.CLAN) {
-            HashSet<UUID> hashSet = smpv1.getGameManager().getPlayerManager().getPlayersInClan(uuid);
+            HashSet<UUID> hashSet = smpv1.getPlayerManager().getPlayersInClan(uuid);
             hashSet.remove(uuid);
             this.clanMembers = hashSet;
         } else {
             this.clanMembers = null;
         }
+    }
+
+    @
+    public boolean isFlagHolder(UUID uuid) {
+        return this.flagHolder == uuid;
     }
 
     public UUID getFlagHolder() {
@@ -249,7 +268,7 @@ public class FlagManager {
                 }
 
 
-                HashSet<UUID> hashSet = smpv1.getGameManager().getPlayerManager().getPlayersInClan(flagHolder);
+                HashSet<UUID> hashSet = smpv1.getPlayerManager().getPlayersInClan(flagHolder);
                 hashSet.remove(flagHolder);
                 for (UUID uuid:hashSet) {
                     if (!Bukkit.getOfflinePlayer(uuid).isOnline()) hashSet.remove(uuid);
