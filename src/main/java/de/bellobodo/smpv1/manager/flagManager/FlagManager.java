@@ -12,7 +12,10 @@ import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.potion.PotionEffect;
@@ -20,6 +23,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
@@ -213,11 +217,9 @@ public class FlagManager {
         }.runTaskTimer(smpv1, 0, 180);
     }
 
-    public boolean itemIsFlag(ItemStack item) {
-        return flag == item;
-    }
+    private FlagState flagState; //TODO
 
-    private FlagState flagState;
+    private Item droppedFlag; //TODO
 
     private PlayerRole flagHolderPlayerRole;
 
@@ -227,6 +229,18 @@ public class FlagManager {
 
     private BukkitTask runnable;
 
+
+    //FlagState Methods
+    public FlagState getFlagState() {
+        return flagState;
+    }
+
+    //DroppedFlag Methods
+    public Item getDroppedFlag() {
+        return droppedFlag;
+    }
+
+    //FlagHolderPlayerRole Methods
     private void updateFlagHolderPlayerRole() {
         this.flagHolderPlayerRole = smpv1.getPlayerManager().getPlayerRole(flagHolder);
     }
@@ -235,6 +249,7 @@ public class FlagManager {
         return flagHolderPlayerRole;
     }
 
+    //FlagHolder Methods
     public void setFlagHolder(UUID uuid) {
         this.flagHolder = uuid;
         updateFlagHolderPlayerRole();
@@ -249,16 +264,22 @@ public class FlagManager {
         }
     }
 
-    @
     public boolean isFlagHolder(UUID uuid) {
         return this.flagHolder == uuid;
     }
 
     public UUID getFlagHolder() {
-        return this.flagHolder;
+        return flagHolder;
+    }
+
+    //Other Functions
+    public boolean itemIsFlag(ItemStack item) {
+        return flag == item;
     }
 
     public void giveEffects() {
+        if (flagState != FlagState.HOLDED) return;
+
         if (flagHolderPlayerRole == PlayerRole.CLAN) {
             if (Bukkit.getOfflinePlayer(flagHolder).isOnline()) {
 
@@ -293,11 +314,4 @@ public class FlagManager {
             }
         }
     }
-
-
-
-
-
-
-
 }

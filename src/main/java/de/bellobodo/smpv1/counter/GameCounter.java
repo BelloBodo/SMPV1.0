@@ -18,8 +18,6 @@ public class GameCounter extends Counter {
 
     @Override
     public void run() {
-
-
         Bukkit.getOnlinePlayers().forEach(player -> {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.s));
         });
