@@ -76,6 +76,8 @@ public class PlayerManager {
 
     //Methods for adding Positions to whitlistedPlayers, clans, söldner, spectators
     public boolean createClan(String clanName) {
+        clanName.toUpperCase();
+
         for (Clan clan:clans) {
             if (clan.getName() == clanName) {
                 return false;

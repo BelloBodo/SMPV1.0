@@ -257,7 +257,7 @@ public class FlagManager {
     public void setDroppedFlag(Item item) {
         item.setGlowing(true);
         this.droppedFlag = item;
-        flagState = FlagState.DROPPED;
+        this.flagState = FlagState.DROPPED;
 
         clearFlagHolder();
     }
