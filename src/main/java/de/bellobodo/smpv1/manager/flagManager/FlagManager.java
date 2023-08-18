@@ -217,9 +217,9 @@ public class FlagManager {
         }.runTaskTimer(smpv1, 0, 180);
     }
 
-    private FlagState flagState; //TODO
+    private FlagState flagState;
 
-    private Item droppedFlag; //TODO
+    private Item droppedFlag;
 
     private PlayerRole flagHolderPlayerRole;
 
@@ -229,6 +229,24 @@ public class FlagManager {
 
     private BukkitTask runnable;
 
+    //Remove Flag
+    public boolean removeFlag() {
+        switch (flagState) {
+            case NOT_GIVEN: return true;
+            case HOLDED:
+                if (!Bukkit.getOfflinePlayer(flagHolder).isOnline()) return false;
+                Bukkit.getPlayer(flagHolder).getInventory().remove(flag);
+                break;
+            case DROPPED:
+                droppedFlag.remove();
+                break;
+        }
+
+        this.flagState = FlagState.NOT_GIVEN;
+        clearDroppedFlag();
+        clearFlagHolder();
+        return true;
+    }
 
     //FlagState Methods
     public FlagState getFlagState() {
@@ -236,15 +254,19 @@ public class FlagManager {
     }
 
     //DroppedFlag Methods
+    public void setDroppedFlag(Item item) {
+        item.setGlowing(true);
+        this.droppedFlag = item;
+        flagState = FlagState.DROPPED;
+
+        clearFlagHolder();
+    }
+
     public Item getDroppedFlag() {
         return droppedFlag;
     }
 
     //FlagHolderPlayerRole Methods
-    private void updateFlagHolderPlayerRole() {
-        this.flagHolderPlayerRole = smpv1.getPlayerManager().getPlayerRole(flagHolder);
-    }
-
     public PlayerRole getFlagHolderPlayerRole() {
         return flagHolderPlayerRole;
     }
@@ -253,14 +275,15 @@ public class FlagManager {
     public void setFlagHolder(UUID uuid) {
         this.flagHolder = uuid;
         updateFlagHolderPlayerRole();
-
+        clearDroppedFlag();
+        this.flagState = FlagState.HOLDED;
 
         if (flagHolderPlayerRole == PlayerRole.CLAN) {
             HashSet<UUID> hashSet = smpv1.getPlayerManager().getPlayersInClan(uuid);
             hashSet.remove(uuid);
             this.clanMembers = hashSet;
         } else {
-            this.clanMembers = null;
+            this.clanMembers.clear();
         }
     }
 
@@ -313,5 +336,20 @@ public class FlagManager {
                 }
             }
         }
+    }
+
+    //Private Functions
+    private void updateFlagHolderPlayerRole() {
+        this.flagHolderPlayerRole = smpv1.getPlayerManager().getPlayerRole(flagHolder);
+    }
+
+    public void clearFlagHolder() {
+        this.flagHolder = null;
+        this.flagHolderPlayerRole = PlayerRole.UNSPECIFIED;
+        this.clanMembers.clear();
+    }
+
+    public void clearDroppedFlag() {
+        this.droppedFlag = null;
     }
 }
