@@ -12,11 +12,16 @@ public final class SMPV1 extends JavaPlugin {
 
     /* TODO
         Prio 1:
-        //Hotbar Message
-        //Countdown Dropped Flag
+        Hotbar Message (GameCounter)
+        Countdown Dropped Flag (GameCounter)
+        Default Flag Holder Method programmieren (FlagManager)
         Prio 2:
-        //Commands
+        Flaggen in Kisten legen blockieren (Listener)
+        Bei Kill Flagge droppen & GameState ändern (Listener)
         Prio 3:
+        Commands
+        Kill Logout Cooldown (Listener)
+        Flagge vor Lava schützen
      */
 
     private PlayerManager playerManager;

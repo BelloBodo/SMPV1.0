@@ -278,9 +278,23 @@ public class FlagManager {
     }
     //TimeSinceDropped Methods
     public void countTimeSinceDropped() {
+        if (droppedFlag.getLocation().getBlockY() < -100) {
+            removeFlag();
+            this.flagState = FlagState.NOT_GIVEN;
+            Bukkit.getOnlinePlayers().forEach(players -> {
+                players.sendMessage(smpv1.getPrefix() + ChatColor.AQUA + "Die Flagge ist ins Void gefallen.");
+            });
+            setDefaultFlagHolder();
+        }
+
         timeSinceDropped++;
-        if (timeSinceDropped == 200) {
+        if (timeSinceDropped >= 200) {
             droppedFlag.remove();
+            this.flagState = FlagState.NOT_GIVEN;
+            Bukkit.getOnlinePlayers().forEach(players -> {
+                players.sendMessage(smpv1.getPrefix() + ChatColor.AQUA + "Die Flagge ist nun verschwunden.");
+            });
+            setDefaultFlagHolder();
         }
     }
 
@@ -361,14 +375,18 @@ public class FlagManager {
         this.flagHolderPlayerRole = smpv1.getPlayerManager().getPlayerRole(flagHolder);
     }
 
-    public void clearFlagHolder() {
+    private void clearFlagHolder() {
         this.flagHolder = null;
         this.flagHolderPlayerRole = PlayerRole.UNSPECIFIED;
         this.clanMembers.clear();
     }
 
-    public void clearDroppedFlag() {
+    private void clearDroppedFlag() {
         this.droppedFlag = null;
         this.timeSinceDropped = 0;
+    }
+
+    private void setDefaultFlagHolder() {
+        //TODO Mit Config verknüpfen und abfragen
     }
 }
