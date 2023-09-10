@@ -8,6 +8,9 @@ söldner:
 
 spectator:
 
+#Edit the Flag Holder
+flagholder:
+
 #Edit the Effects
 clanFlagHolderEffects:
   speed: 0

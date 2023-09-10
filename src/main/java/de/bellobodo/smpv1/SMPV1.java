@@ -10,6 +10,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SMPV1 extends JavaPlugin {
 
+    /* TODO
+        Prio 1:
+        //Hotbar Message
+        //Countdown Dropped Flag
+        Prio 2:
+        //Commands
+        Prio 3:
+     */
+
     private PlayerManager playerManager;
 
     private FlagManager flagManager;

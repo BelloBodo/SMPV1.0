@@ -24,7 +24,8 @@ public class GameCounter extends Counter {
 
     @Override
     public void run() {
-        FlagState flagState = smpv1.getFlagManager().getFlagState();
+        String hotbarMessage = getHotbarMessage();
+
         String playerName;
         String clanName;
 
@@ -34,11 +35,29 @@ public class GameCounter extends Counter {
         }
 
         //TODO Make Hotbar Message
-        String hotbarMessage;
+
 
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.s));
         });
+    }
+
+    private String getHotbarMessage() {
+        switch (smpv1.getFlagManager().getFlagState()) {
+            case NOT_GIVEN:
+                return ChatColor.GRAY + "Die Flagge wurde noch nicht vergeben.";
+            case HOLDED:
+                String playerName = Bukkit.getOfflinePlayer(smpv1.getFlagManager().getFlagHolder()).getName();
+                String clanName = smpv1.getPlayerManager().getClanOfPlayer(smpv1.getFlagManager().getFlagHolder());
+
+                //TODO Make HotbarMessage for handling Söldner
+
+                return ChatColor.GRAY + "Die Flagge ist im Besitz von " + ChatColor.DARK_GRAY + playerName
+                        + ChatColor.GRAY + " im Clan \"" + ChatColor.DARK_GRAY + clanName + ChatColor.GRAY + "\".";
+            case DROPPED:
+                return ChatColor.GRAY + "Die Flagge wurde fallengelassen.";
+        }
+        return null;
     }
 }

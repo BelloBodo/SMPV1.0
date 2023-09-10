@@ -215,11 +215,22 @@ public class FlagManager {
                 giveEffects();
             }
         }.runTaskTimer(smpv1, 0, 180);
+
+        //Get the FlagHolder and FlagState
+        UUID holder = UUID.fromString(config.getString("flagholder"));
+
+         if (holder != null ){
+            setFlagHolder(holder);
+        } else {
+             flagState = FlagState.NOT_GIVEN;
+         }
     }
 
     private FlagState flagState;
 
     private Item droppedFlag;
+
+    private int timeSinceDropped = 0;
 
     private PlayerRole flagHolderPlayerRole;
 
@@ -264,6 +275,13 @@ public class FlagManager {
 
     public Item getDroppedFlag() {
         return droppedFlag;
+    }
+    //TimeSinceDropped Methods
+    public void countTimeSinceDropped() {
+        timeSinceDropped++;
+        if (timeSinceDropped == 200) {
+            droppedFlag.remove();
+        }
     }
 
     //FlagHolderPlayerRole Methods
@@ -351,5 +369,6 @@ public class FlagManager {
 
     public void clearDroppedFlag() {
         this.droppedFlag = null;
+        this.timeSinceDropped = 0;
     }
 }
