@@ -276,6 +276,7 @@ public class FlagManager {
     public Item getDroppedFlag() {
         return droppedFlag;
     }
+
     //TimeSinceDropped Methods
     public void countTimeSinceDropped() {
         if (droppedFlag.getLocation().getBlockY() < -100) {
@@ -306,6 +307,7 @@ public class FlagManager {
     //FlagHolder Methods
     public void setFlagHolder(UUID uuid) {
         this.flagHolder = uuid;
+        smpv1.getConfig().set("flagholder", uuid.toString());
         updateFlagHolderPlayerRole();
         clearDroppedFlag();
         this.flagState = FlagState.HOLDED;
@@ -387,6 +389,6 @@ public class FlagManager {
     }
 
     private void setDefaultFlagHolder() {
-        //TODO Mit Config verknüpfen und abfragen
+        smpv1.getConfig().getString("defaultflagholder");
     }
 }

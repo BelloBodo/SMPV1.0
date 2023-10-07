@@ -5,11 +5,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class ClanCommand implements CommandExecutor {
+public class FlagCommand implements CommandExecutor {
 
     private final SMPV1 smpv1;
 
-    public ClanCommand(SMPV1 smpv1) {
+    public FlagCommand(SMPV1 smpv1) {
         this.smpv1 = smpv1;
     }
 

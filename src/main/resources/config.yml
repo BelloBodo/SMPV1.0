@@ -10,6 +10,7 @@ spectator:
 
 #Edit the Flag Holder
 flagholder:
+defaultflagholder:
 
 #Edit the Effects
 clanFlagHolderEffects:

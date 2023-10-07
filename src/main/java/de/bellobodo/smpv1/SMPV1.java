@@ -1,5 +1,7 @@
 package de.bellobodo.smpv1;
 
+import de.bellobodo.smpv1.commands.ClanCommand;
+import de.bellobodo.smpv1.commands.FlagCommand;
 import de.bellobodo.smpv1.counter.GameCounter;
 import de.bellobodo.smpv1.listeners.JoinQuitListener;
 import de.bellobodo.smpv1.manager.flagManager.FlagManager;
@@ -42,6 +44,8 @@ public final class SMPV1 extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        getCommand("clan").setExecutor(new ClanCommand(this));
+        getCommand("flag").setExecutor(new FlagCommand(this));
 
         Bukkit.getPluginManager().registerEvents(new JoinQuitListener(this),this);
     }

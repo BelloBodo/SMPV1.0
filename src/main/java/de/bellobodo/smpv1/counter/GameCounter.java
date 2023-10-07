@@ -24,24 +24,15 @@ public class GameCounter extends Counter {
 
     @Override
     public void run() {
+
+        //Display the Hotbar Message
         String hotbarMessage = getHotbarMessage();
-
-        String playerName;
-        String clanName;
-
-        if (flagState == FlagState.HOLDED) {
-            playerName = Bukkit.getOfflinePlayer(smpv1.getFlagManager().getFlagHolder()).getName();
-            clanName = smpv1.getPlayerManager().getClanOfPlayer(smpv1.getFlagManager().getFlagHolder());
-        }
-
-        //TODO Make Hotbar Message
-
-
-
         Bukkit.getOnlinePlayers().forEach(player -> {
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.s));
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(hotbarMessage));
         });
     }
+
+    //TODO Make Hotbar Message
 
     private String getHotbarMessage() {
         switch (smpv1.getFlagManager().getFlagState()) {
