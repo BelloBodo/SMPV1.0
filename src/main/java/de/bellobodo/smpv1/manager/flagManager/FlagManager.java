@@ -110,8 +110,7 @@ public class FlagManager {
             if (config.getInt("clanFlagHolderEffects.bad_luck") > 0) tempClanFlagHolderEffects.add
                     (new PotionEffect(PotionEffectType.UNLUCK, 10, config.getInt("clanFlagHolderEffects.bad_luck"), false, false));
 
-            if (config.getInt("clanFlagHolderEffects.glowing") > 0) tempClanFlagHolderEffects.add
-                    (new PotionEffect(PotionEffectType.GLOWING, 10, config.getInt("clanFlagHolderEffects.glowing"), false, false));
+            tempClanFlagHolderEffects.add(new PotionEffect(PotionEffectType.GLOWING, 10, 0, false, false));
         }
 
         this.clanFlagHolderEffects = tempClanFlagHolderEffects;
@@ -155,9 +154,6 @@ public class FlagManager {
 
             if (config.getInt("clanMemberEffects.bad_luck") > 0) tempClanMemberEffects.add
                     (new PotionEffect(PotionEffectType.UNLUCK, 10, config.getInt("clanMemberEffects.bad_luck"), false, false));
-
-            if (config.getInt("clanMemberEffects.glowing") > 0) tempClanMemberEffects.add
-                    (new PotionEffect(PotionEffectType.GLOWING, 10, config.getInt("clanMemberEffects.glowing"), false, false));
         }
 
         this.clanMemberEffects = tempClanMemberEffects;
@@ -202,8 +198,7 @@ public class FlagManager {
             if (config.getInt("söldnerEffects.bad_luck") > 0) tempSöldnerEffects.add
                     (new PotionEffect(PotionEffectType.UNLUCK, 10, config.getInt("söldnerEffects.bad_luck"), false, false));
 
-            if (config.getInt("söldnerEffects.glowing") > 0) tempSöldnerEffects.add
-                    (new PotionEffect(PotionEffectType.GLOWING, 10, config.getInt("söldnerEffects.glowing"), false, false));
+            tempSöldnerEffects.add(new PotionEffect(PotionEffectType.GLOWING, 10, 0, false, false));
         }
 
         this.söldnerEffects = tempSöldnerEffects;
@@ -259,6 +254,17 @@ public class FlagManager {
         return true;
     }
 
+    //Flag Methods
+
+
+    public ItemStack getFlag() {
+        return flag;
+    }
+
+    public boolean isFlag(ItemStack itemStack) {
+        return flag == itemStack;
+    }
+
     //FlagState Methods
     public FlagState getFlagState() {
         return flagState;
@@ -267,8 +273,15 @@ public class FlagManager {
     //DroppedFlag Methods
     public void setDroppedFlag(Item item) {
         item.setGlowing(true);
+        item.setInvulnerable(true);
+        item.setGravity(false);
         this.droppedFlag = item;
         this.flagState = FlagState.DROPPED;
+        Bukkit.getOnlinePlayers().forEach(players -> {
+            players.sendMessage(smpv1.getPrefix() + ChatColor.AQUA + "Die Flagge wurde fallengelassen."
+            + ChatColor.DARK_AQUA + " X:" + item.getLocation().getBlockX() + " Y:" + item.getLocation().getBlockY()
+                    + " Z:" + item.getLocation().getBlockZ());
+        });
 
         clearFlagHolder();
     }
@@ -297,6 +310,10 @@ public class FlagManager {
             });
             setDefaultFlagHolder();
         }
+    }
+
+    public int getTimeSinceDropped() {
+        return timeSinceDropped;
     }
 
     //FlagHolderPlayerRole Methods
@@ -389,6 +406,7 @@ public class FlagManager {
     }
 
     private void setDefaultFlagHolder() {
-        smpv1.getConfig().getString("defaultflagholder");
+        this.flagHolder = UUID.fromString(Objects.requireNonNull(smpv1.getConfig().getString("defaultflagholder")));
+        if (flagHolder == null) this.flagState = FlagState.NOT_GIVEN;
     }
 }
