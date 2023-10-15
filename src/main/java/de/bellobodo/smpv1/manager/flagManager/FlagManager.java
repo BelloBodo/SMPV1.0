@@ -255,8 +255,6 @@ public class FlagManager {
     }
 
     //Flag Methods
-
-
     public ItemStack getFlag() {
         return flag;
     }
