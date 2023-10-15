@@ -42,14 +42,7 @@ public class AnklageCommand implements CommandExecutor {
 
     /**
      * Wird bei Commandausführung aufgerufen
-     *
      *   TODO: Maybe kann man das anders schreiben: anstatt in der Config zu schreiben, kann man den Angeklagten ne Rolle geben und nen Handerler/Listener der der Rolle immer den Effekt gibt
-     *
-     * @param sender
-     * @param command
-     * @param label
-     * @param args
-     * @return
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -68,27 +61,31 @@ public class AnklageCommand implements CommandExecutor {
          */
         if(args[0].equalsIgnoreCase("reset")) {
 
-            angeklagter = sender.getServer().getPlayer(UUID.fromString((String) config.get("angeklagt")));
+            try {
+                angeklagter = sender.getServer().getPlayer(UUID.fromString((String) config.get("angeklagt")));
 
-            config.set("angeklagt", "00000000-0000-0000-0000-000000000000");
+                config.set("angeklagt", "00000000-0000-0000-0000-000000000000");
 
-            angeklagter.setGameMode(GameMode.SURVIVAL);
-            angeklagter.setWalkSpeed(0.2f);
+                angeklagter.setGameMode(GameMode.SURVIVAL);
+                angeklagter.setWalkSpeed(0.2f);
 
-            for (PotionEffectType pE: givenEffects) {
-                angeklagter.removePotionEffect(pE);
+                for (PotionEffectType pE: givenEffects) {
+                    angeklagter.removePotionEffect(pE);
+                }
+
+                angeklagter.sendMessage("§aDu bist nicht mehr angeklagt");
+                sender.sendMessage("§a"+angeklagter.getName()+" ist nun nicht mehr angeklagt");
+            } catch (Exception e) {
+                sender.sendMessage("§2Kritischer Fehler bro. Ist überhaupt jemand angeklagt?");
             }
-
-            angeklagter.sendMessage("§aDu bist nicht mehr angeklagt");
-            sender.sendMessage("§a"+angeklagter.getName()+" ist nun nicht mehr angeklagt");
 
 
         } else {
-
-            config.set("angeklagt", angeklagter.getUniqueId().toString());
-
-            String kpStr = (String) config.get("angeklagterpos");
             try {
+                config.set("angeklagt", angeklagter.getUniqueId().toString());
+
+                String kpStr = (String) config.get("angeklagterpos");
+
                 double[] klagepos = {   Double.parseDouble(kpStr.substring(0,kpStr.indexOf("|"))),
                                         Double.parseDouble(kpStr.substring(kpStr.indexOf("|")+1,kpStr.indexOf("#"))),
                                         Double.parseDouble(kpStr.substring(kpStr.indexOf("#")+1))

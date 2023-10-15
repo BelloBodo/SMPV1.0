@@ -20,11 +20,6 @@ public class SetKlagePos implements CommandExecutor {
      * Setzt die Position wo der Angeklagt hinteleportiert wird
      * /setklagepos             - setzt auf die aktuelle Pos des Nutzers.
      * MAYBE TODO: /setklagepos <x><y><z> ?      || Muss aber nich
-     * @param sender
-     * @param command
-     * @param label
-     * @param args
-     * @return
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

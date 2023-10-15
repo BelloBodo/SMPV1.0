@@ -12,8 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.UUID;
-
 public class RuheCommand implements CommandExecutor {
 
     final private FileConfiguration cH;
@@ -37,11 +35,6 @@ public class RuheCommand implements CommandExecutor {
 
     /**
      *      *   TODO: Maybe kann man das anders schreiben: anstatt in der Config zu schreiben, kann man den Ruhemenschen ne Rolle geben und nen Handerler/Listener der der Rolle immer den Effekt gibt
-     * @param sender
-     * @param command
-     * @param label
-     * @param args
-     * @return
      */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
