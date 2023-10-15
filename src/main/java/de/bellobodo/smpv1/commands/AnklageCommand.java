@@ -76,7 +76,7 @@ public class AnklageCommand implements CommandExecutor {
                 angeklagter.sendMessage("§aDu bist nicht mehr angeklagt");
                 sender.sendMessage("§a"+angeklagter.getName()+" ist nun nicht mehr angeklagt");
             } catch (Exception e) {
-                sender.sendMessage("§2Kritischer Fehler bro. Ist überhaupt jemand angeklagt?");
+                sender.sendMessage("§3Kritischer Fehler bro. Ist überhaupt jemand angeklagt?");
             }
 
 
@@ -110,10 +110,7 @@ public class AnklageCommand implements CommandExecutor {
             } catch (Exception e) {
                 sender.sendMessage("§2Kritischer Fehler bro. Haste die /klagepos gesetzt?");
             }
-
-
         }
-
         return true;
     }
 }
