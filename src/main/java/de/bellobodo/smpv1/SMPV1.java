@@ -1,13 +1,13 @@
 package de.bellobodo.smpv1;
 
-import de.bellobodo.smpv1.commands.ClanCommand;
-import de.bellobodo.smpv1.commands.FlagCommand;
+import de.bellobodo.smpv1.commands.*;
 import de.bellobodo.smpv1.counter.GameCounter;
 import de.bellobodo.smpv1.listeners.JoinQuitListener;
 import de.bellobodo.smpv1.manager.flagManager.FlagManager;
 import de.bellobodo.smpv1.manager.playerManager.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SMPV1 extends JavaPlugin {
@@ -36,8 +36,12 @@ public final class SMPV1 extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
         getCommand("clan").setExecutor(new ClanCommand(this));
         getCommand("flag").setExecutor(new FlagCommand(this));
+        getCommand("anklagen").setExecutor(new AnklageCommand(this));
+        getCommand("ruhe").setExecutor(new RuheCommand(this));
+        getCommand("setklagepos").setExecutor(new SetKlagePos(this));
 
         Bukkit.getPluginManager().registerEvents(new JoinQuitListener(this),this);
     }
