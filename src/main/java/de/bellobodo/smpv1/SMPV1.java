@@ -13,8 +13,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class SMPV1 extends JavaPlugin {
 
     /* TODO
-        Prio 3:
-        Commands
         Kill Logout Cooldown (Listener)
      */
 
@@ -37,7 +35,6 @@ public final class SMPV1 extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        getCommand("clan").setExecutor(new ClanCommand(this));
         getCommand("flag").setExecutor(new FlagCommand(this));
         getCommand("anklagen").setExecutor(new AnklageCommand(this));
         getCommand("ruhe").setExecutor(new RuheCommand(this));
