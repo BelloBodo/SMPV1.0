@@ -54,6 +54,7 @@ public class JoinQuitListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
+        //TODO entferne Effekte bei FlagHolder
         event.setQuitMessage(event.getPlayer().getDisplayName() + ChatColor.RESET
                 + ChatColor.RED + " hat den Server verlassen.");
     }

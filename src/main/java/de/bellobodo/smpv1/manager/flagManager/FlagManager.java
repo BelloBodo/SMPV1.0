@@ -49,9 +49,9 @@ public class FlagManager {
         //Creation of the Flag
         ItemStack banner = new ItemBuilder(Material.BLACK_BANNER)
                 .setName(ChatColor.GOLD + ChatColor.BOLD.toString() + "Weltenflagge")
-                .appendLore(ChatColor.YELLOW + "Eine Magische Flagge die dem Träger und")
-                .appendLore(ChatColor.YELLOW + "dessen Team besondere Effekte verleit.")
-                .enchant(Enchantment.LUCK)
+                .appendLore(ChatColor.YELLOW + "Eine Magische Flagge die dem Träger und",
+                        ChatColor.YELLOW + "dessen Team besondere Effekte verleit.")
+                .enchant(Enchantment.LUCK, 1)
                 .hideFlags()
                 .build();
 
@@ -204,18 +204,23 @@ public class FlagManager {
         this.söldnerEffects = tempSöldnerEffects;
 
         //Creation of BukkitRunnable
-        runnable = new BukkitRunnable() {
+        this.runnable = new BukkitRunnable() {
             @Override
             public void run() {
                 giveEffects();
+                //TODO
+                Bukkit.getOnlinePlayers().forEach(player -> {
+                    if (flagState != null) player.sendMessage(flagState.toString());
+                    if (flagHolder != null) player.sendMessage(flagHolder.toString());
+                    if (flagHolderPlayerRole != null) player.sendMessage(flagHolderPlayerRole.toString());
+                });
             }
         }.runTaskTimer(smpv1, 0, 180);
 
         //Get the FlagHolder and FlagState
-        UUID holder = UUID.fromString(config.getString("flagholder"));
-
-         if (holder != null ){
-            setFlagHolder(holder);
+         if (config.getString("flagholder") != "" ){
+             UUID holder = UUID.fromString((config.getString("flagholder")));
+             setFlagHolder(holder);
         } else {
              flagState = FlagState.NOT_GIVEN;
          }
@@ -231,7 +236,7 @@ public class FlagManager {
 
     private UUID flagHolder;
 
-    private HashSet<UUID> clanMembers;
+    private HashSet<UUID> clanMembers = new HashSet<>();
 
     private BukkitTask runnable;
 
@@ -260,7 +265,7 @@ public class FlagManager {
     }
 
     public boolean isFlag(ItemStack itemStack) {
-        return flag == itemStack;
+        return flag.equals(itemStack);
     }
 
     //FlagState Methods
@@ -323,6 +328,7 @@ public class FlagManager {
     public void setFlagHolder(UUID uuid) {
         this.flagHolder = uuid;
         smpv1.getConfig().set("flagholder", uuid.toString());
+        smpv1.saveConfig();
         updateFlagHolderPlayerRole();
         clearDroppedFlag();
         this.flagState = FlagState.HOLDED;
@@ -394,6 +400,8 @@ public class FlagManager {
 
     private void clearFlagHolder() {
         this.flagHolder = null;
+        smpv1.getConfig().set("flagholder", "");
+        smpv1.saveConfig();
         this.flagHolderPlayerRole = PlayerRole.UNSPECIFIED;
         this.clanMembers.clear();
     }

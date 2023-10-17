@@ -2,6 +2,9 @@ package de.bellobodo.smpv1;
 
 import de.bellobodo.smpv1.commands.*;
 import de.bellobodo.smpv1.counter.GameCounter;
+import de.bellobodo.smpv1.listeners.DeathListener;
+import de.bellobodo.smpv1.listeners.InventoryListener;
+import de.bellobodo.smpv1.listeners.ItemPickupListener;
 import de.bellobodo.smpv1.listeners.JoinQuitListener;
 import de.bellobodo.smpv1.manager.flagManager.FlagManager;
 import de.bellobodo.smpv1.manager.playerManager.PlayerManager;
@@ -26,14 +29,13 @@ public final class SMPV1 extends JavaPlugin {
     public void onLoad() {
         this.saveDefaultConfig();
         Bukkit.setWhitelist(true);
-
-        playerManager = new PlayerManager(this);
-        flagManager = new FlagManager(this);
-        gameCounter = new GameCounter(this);
     }
 
     @Override
     public void onEnable() {
+        this.playerManager = new PlayerManager(this);
+        this.flagManager = new FlagManager(this);
+        this.gameCounter = new GameCounter(this);
 
         getCommand("flag").setExecutor(new FlagCommand(this));
         getCommand("anklagen").setExecutor(new AnklageCommand(this));
@@ -41,6 +43,9 @@ public final class SMPV1 extends JavaPlugin {
         getCommand("setklagepos").setExecutor(new SetKlagePos(this));
 
         Bukkit.getPluginManager().registerEvents(new JoinQuitListener(this),this);
+        Bukkit.getPluginManager().registerEvents(new ItemPickupListener(this),this);
+        Bukkit.getPluginManager().registerEvents(new InventoryListener(this),this);
+        Bukkit.getPluginManager().registerEvents(new DeathListener(this),this);
     }
 
     @Override

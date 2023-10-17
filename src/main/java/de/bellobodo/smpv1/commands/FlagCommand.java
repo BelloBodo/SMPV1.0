@@ -1,7 +1,7 @@
 package de.bellobodo.smpv1.commands;
 
 import de.bellobodo.smpv1.SMPV1;
-import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,7 +18,9 @@ public class FlagCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-
+        Player player = (Player) sender;
+        player.getInventory().addItem(smpv1.getFlagManager().getFlag());
+        smpv1.getFlagManager().setFlagHolder(player.getUniqueId());
         return true;
     }
 

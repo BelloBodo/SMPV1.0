@@ -25,11 +25,11 @@ public class DeathListener implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         FlagManager flagManager = smpv1.getFlagManager();
-        if (flagManager.getFlagHolder() == event.getEntity().getUniqueId()) {
+        if (flagManager.getFlagHolder().equals(event.getEntity().getUniqueId())) {
             event.getDrops().remove(flagManager.getFlag());
 
             Location dropLocation = findSuitableLocation(event.getEntity().getLocation());
-            Item item = Bukkit.getWorld(event.getEntity().getUniqueId()).dropItem(dropLocation, flagManager.getFlag());
+            Item item = dropLocation.getWorld().dropItem(dropLocation, flagManager.getFlag());
             flagManager.setDroppedFlag(item);
         }
     }

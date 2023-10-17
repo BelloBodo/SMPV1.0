@@ -87,9 +87,11 @@ public class PlayerManager {
 
         config.set("clans." + clanName + ".leader", "");
         config.set("clans." + clanName + ".member", new HashSet<>());
+        smpv1.saveConfig();
         return true;
     }
 
+    //TODO add smpv1.saveConfig();
     public boolean removeClan(String clanName) {
 
         for (Clan clan:clans) {
