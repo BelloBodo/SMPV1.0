@@ -28,7 +28,7 @@ public class InventoryListener implements Listener {
     public void onClick(InventoryClickEvent event) {
         if (event.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY || event.getAction() == InventoryAction.PLACE_ALL
                 || event.getAction() == InventoryAction.PLACE_SOME || event.getAction() == InventoryAction.PLACE_ONE ||
-                event.getAction() == InventoryAction.HOTBAR_SWAP || event.getAction() == InventoryAction.SWAP_WITH_CURSOR || event.getAction() == InventoryAction.SWAP_WITH_CURSOR)) {
+                event.getAction() == InventoryAction.HOTBAR_SWAP || event.getAction() == InventoryAction.SWAP_WITH_CURSOR || event.getAction() == InventoryAction.SWAP_WITH_CURSOR) {
             List<ItemStack> items = new ArrayList<>();
             items.add(event.getCurrentItem());
             items.add(event.getCursor());
