@@ -1,7 +1,7 @@
-package de.bellobodo.smpv1.counter;
+package archive.counter;
 
 import de.bellobodo.smpv1.SMPV1;
-import de.bellobodo.smpv1.manager.flagManager.FlagState;
+import archive.manager.flagManager.FlagState;
 import de.bellobodo.timer.Counter;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -10,7 +10,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class GameCounter extends Counter {
 

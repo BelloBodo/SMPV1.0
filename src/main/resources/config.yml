@@ -1,9 +1,8 @@
 #Edit the Player Roles
 clans:
   TEST:
-    leader:
     members:
-      - af9952ca-590a-47d5-8867-d0f4a1871af2 #BelloBodo
+      - af9952ca-590a-47d5-8867-d0f4a1871af2: BelloBodo
 söldner:
 
 spectator:
@@ -11,6 +10,9 @@ spectator:
 #Edit the Flag Holder
 flagholder:
 defaultflagholder:
+
+#Whitelist
+whitelist: true
 
 #Edit the Effects
 clanFlagHolderEffects:

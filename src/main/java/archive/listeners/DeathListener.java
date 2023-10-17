@@ -1,18 +1,12 @@
-package de.bellobodo.smpv1.listeners;
+package archive.listeners;
 
 import de.bellobodo.smpv1.SMPV1;
-import de.bellobodo.smpv1.manager.flagManager.FlagManager;
-import org.bukkit.Bukkit;
+import archive.manager.flagManager.FlagManager;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class DeathListener implements Listener {
 
@@ -29,13 +23,13 @@ public class DeathListener implements Listener {
             event.getDrops().remove(flagManager.getFlag());
 
             Location dropLocation = findSuitableLocation(event.getEntity().getLocation());
-            Item item = dropLocation.getWorld().dropItem(dropLocation, flagManager.getFlag());
+            Item item = dropLocation.getWorld().dropItem(dropLocation, smpv1.getFlagManager().getFlag());
             flagManager.setDroppedFlag(item);
         }
     }
 
     private Location findSuitableLocation(Location location) {
-        location.setY(location.getBlockY() + 0.5);
+        location.setY(location.getBlockY() + 3);
 
         if (location.getY() < 4.5) {
             location.setY(4.5);

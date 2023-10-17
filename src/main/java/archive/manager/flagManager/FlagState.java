@@ -1,4 +1,4 @@
-package de.bellobodo.smpv1.manager.flagManager;
+package archive.manager.flagManager;
 
 public enum FlagState {
 

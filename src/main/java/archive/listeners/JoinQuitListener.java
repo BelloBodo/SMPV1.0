@@ -1,15 +1,11 @@
-package de.bellobodo.smpv1.listeners;
+package archive.listeners;
 
 import de.bellobodo.smpv1.SMPV1;
-import de.bellobodo.smpv1.manager.flagManager.FlagManager;
-import de.bellobodo.smpv1.manager.playerManager.PlayerManager;
-import de.bellobodo.smpv1.manager.playerManager.PlayerRole;
+import archive.manager.playerManager.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ItemDespawnEvent;
-import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 

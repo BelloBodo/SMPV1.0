@@ -1,4 +1,4 @@
-package de.bellobodo.smpv1.manager.playerManager;
+package archive.manager.playerManager;
 
 public enum PlayerRole {
 

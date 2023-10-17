@@ -1,7 +1,6 @@
-package de.bellobodo.smpv1.listeners;
+package archive.listeners;
 
 import de.bellobodo.smpv1.SMPV1;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;

@@ -1,7 +1,6 @@
-package de.bellobodo.smpv1.commands;
+package archive.commands;
 
 import de.bellobodo.smpv1.SMPV1;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

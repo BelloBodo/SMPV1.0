@@ -1,14 +1,11 @@
-package de.bellobodo.smpv1.manager.playerManager;
+package de.bellobodo.smpv1.playerManager;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.UUID;
 
 public class Clan {
 
     private String name;
-
-    private UUID leader;
 
     private HashSet<UUID> members;
 
@@ -19,14 +16,6 @@ public class Clan {
 
     public String getName() {
         return name;
-    }
-
-    public void setLeader(UUID uuid) {
-        leader = uuid;
-    }
-
-    public UUID getLeader() {
-        return leader;
     }
 
     public void addMember(UUID uuid) {

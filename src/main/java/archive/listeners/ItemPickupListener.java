@@ -1,4 +1,4 @@
-package de.bellobodo.smpv1.listeners;
+package archive.listeners;
 
 import de.bellobodo.smpv1.SMPV1;
 import org.bukkit.entity.EntityType;

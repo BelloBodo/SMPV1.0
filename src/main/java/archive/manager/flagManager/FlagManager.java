@@ -1,9 +1,8 @@
-package de.bellobodo.smpv1.manager.flagManager;
+package archive.manager.flagManager;
 
 import de.bellobodo.itemBuilder.ItemBuilder;
 import de.bellobodo.smpv1.SMPV1;
-import de.bellobodo.smpv1.manager.playerManager.PlayerManager;
-import de.bellobodo.smpv1.manager.playerManager.PlayerRole;
+import archive.manager.playerManager.PlayerRole;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -12,10 +11,8 @@ import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.potion.PotionEffect;
@@ -23,7 +20,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
@@ -278,6 +274,8 @@ public class FlagManager {
         item.setGlowing(true);
         item.setInvulnerable(true);
         item.setGravity(false);
+        item.setUnlimitedLifetime(true);
+        item.setCustomNameVisible(true);
         this.droppedFlag = item;
         this.flagState = FlagState.DROPPED;
         Bukkit.getOnlinePlayers().forEach(players -> {
