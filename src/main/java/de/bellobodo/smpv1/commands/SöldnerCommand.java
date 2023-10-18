@@ -33,7 +33,7 @@ public class SöldnerCommand implements CommandExecutor {
             case "add":
                 smpv1.getPlayerManager().addSöldner(Bukkit.getOfflinePlayer(playerName).getUniqueId());
                 sender.sendMessage(smpv1.getPrefix() + ChatColor.GREEN + "Der Söldner " + ChatColor.GRAY + args[1]
-                        + ChatColor.GREEN + " wurde erstellt.");
+                        + ChatColor.GREEN + " wurde hinzugefügt.");
                 break;
             case "remove":
                 smpv1.getPlayerManager().addSöldner(Bukkit.getOfflinePlayer(playerName).getUniqueId());
