@@ -91,7 +91,7 @@ public class PlayerManager {
         return true;
     }
 
-    public boolean removeClan(String clanName) {
+    public boolean deleteClan(String clanName) {
         clanName = clanName.toUpperCase();
 
         for (Clan clan:clans) {

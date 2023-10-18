@@ -4,7 +4,5 @@ main: de.bellobodo.smpv1.SMPV1
 api-version: '1.20'
 commands:
   clan:
-  flag:
-  anklagen:
-  setklagepos:
-  ruhe:
+  spectator:
+  söldner:
