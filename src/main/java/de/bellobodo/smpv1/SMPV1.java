@@ -12,11 +12,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SMPV1 extends JavaPlugin {
 
-    private PlayerManager playerManager = new PlayerManager(this);
+    private PlayerManager playerManager;
 
     @Override
     public void onLoad() {
         this.saveDefaultConfig();
+
+        playerManager = new PlayerManager(this);
     }
 
     @Override

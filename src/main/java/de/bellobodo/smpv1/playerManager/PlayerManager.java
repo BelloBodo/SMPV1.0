@@ -3,6 +3,7 @@ package de.bellobodo.smpv1.playerManager;
 import de.bellobodo.smpv1.SMPV1;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -21,30 +22,51 @@ public class PlayerManager {
 
 
         //Create Clans from Config
-        for (String clanNames : config.getStringList("clans")) {
-            Clan clan = new Clan(clanNames.toUpperCase());
+        ConfigurationSection configurationSection = config.getConfigurationSection("clans");
+        if (configurationSection != null) {
+            for (String clanNames : configurationSection.getKeys(false).toArray(new String[0])) {
+                Clan clan = new Clan(clanNames.toUpperCase());
 
-            for (String clanMembers : config.getStringList("clans." + clanNames + ".member")) {
-                UUID clanMember = UUID.fromString(clanMembers);
-                clan.addMember(clanMember);
-                this.whitlistedPlayers.add(clanMember);
+                Bukkit.getLogger().info("Clan hinzugefügt: " + clanNames);
+
+                ConfigurationSection configurationSection1 = config.getConfigurationSection("clans." + clanNames);
+                if (configurationSection1 != null) {
+                    for (String clanMembers : configurationSection1.getKeys(false).toArray(new String[0])) {
+                        UUID clanMember = UUID.fromString(clanMembers);
+                        clan.addMember(clanMember);
+                        this.whitlistedPlayers.add(clanMember);
+
+                        Bukkit.getLogger().info("Clan Member hinzugefügt: " + clanMembers);
+                    }
+                }
+                this.clans.add(clan);
             }
-            this.clans.add(clan);
         }
 
-        //Create Söldner from Config
-        for (String söldner : config.getStringList("söldner")) {
-            this.söldner.add(UUID.fromString(söldner));
+        Bukkit.getLogger().info("");
 
-            this.whitlistedPlayers.add(UUID.fromString(söldner));
+        //Create Söldner from Config
+        configurationSection = config.getConfigurationSection("söldner");
+        if (configurationSection != null) {
+            for (String söldner : configurationSection.getKeys(false).toArray(new String[0])) {
+                this.söldner.add(UUID.fromString(söldner));
+                this.whitlistedPlayers.add(UUID.fromString(söldner));
+
+                Bukkit.getLogger().info("Söldner hinzugefügt: " + söldner);
+            }
         }
 
         //Create Spectator from Config
-        for (String spectator : config.getStringList("spectator")) {
-            this.spectators.add(UUID.fromString(spectator));
+        configurationSection = config.getConfigurationSection("spectator");
+        if (configurationSection != null) {
+            for (String spectator : configurationSection.getKeys(false).toArray(new String[0])) {
+                this.spectators.add(UUID.fromString(spectator));
+                this.whitlistedPlayers.add(UUID.fromString(spectator));
 
-            this.whitlistedPlayers.add(UUID.fromString(spectator));
+                Bukkit.getLogger().info("Spectator hinzugefügt: " + spectator);
+            }
         }
+
 
         reloadWhitelist();
     }
@@ -75,7 +97,7 @@ public class PlayerManager {
     }
 
 
-    //Methods for adding Positions to whitelistedPlayers, clans, söldner, spectators
+    //Methods for adding/removing Positions to whitelistedPlayers, clans, söldner, spectators
     public boolean createClan(String clanName) {
         clanName = clanName.toUpperCase();
 
@@ -86,7 +108,7 @@ public class PlayerManager {
         };
         this.clans.add(new Clan(clanName));
 
-        config.set("clans." + clanName + ".member", new HashSet<>());
+        config.set("clans." + clanName + ".member", "");
         smpv1.saveConfig();
         return true;
     }
@@ -201,5 +223,20 @@ public class PlayerManager {
     public String getClanOfPlayer(UUID uuid) {
         for (Clan clan : clans) if (clan.getMembers().contains(uuid)) return clan.getName().toUpperCase();
         return null;
+    }
+
+    //Getter
+
+
+    public ArrayList<Clan> getClans() {
+        return clans;
+    }
+
+    public HashSet<UUID> getSöldner() {
+        return söldner;
+    }
+
+    public HashSet<UUID> getSpectators() {
+        return spectators;
     }
 }

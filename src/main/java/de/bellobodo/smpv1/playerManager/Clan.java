@@ -7,7 +7,7 @@ public class Clan {
 
     private String name;
 
-    private HashSet<UUID> members;
+    private HashSet<UUID> members = new HashSet<>();
 
 
     public Clan(String name) {
