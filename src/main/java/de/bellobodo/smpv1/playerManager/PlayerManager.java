@@ -20,6 +20,7 @@ public class PlayerManager {
         this.smpv1 = smpv1;
         this.config = smpv1.getConfig();
 
+        Bukkit.getLogger().info("[SMPV1] Start Building PlayerManager");
 
         //Create Clans from Config
         ConfigurationSection configurationSection = config.getConfigurationSection("clans");
@@ -43,8 +44,6 @@ public class PlayerManager {
             }
         }
 
-        Bukkit.getLogger().info("");
-
         //Create Söldner from Config
         configurationSection = config.getConfigurationSection("söldner");
         if (configurationSection != null) {
@@ -54,6 +53,7 @@ public class PlayerManager {
 
                 Bukkit.getLogger().info("Söldner hinzugefügt: " + söldner);
             }
+
         }
 
         //Create Spectator from Config
@@ -67,6 +67,7 @@ public class PlayerManager {
             }
         }
 
+        Bukkit.getLogger().info("[SMPV1] End Building PlayerManager");
 
         reloadWhitelist();
     }
@@ -107,9 +108,6 @@ public class PlayerManager {
             }
         };
         this.clans.add(new Clan(clanName));
-
-        config.set("clans." + clanName + ".member", "");
-        smpv1.saveConfig();
         return true;
     }
 
@@ -139,7 +137,8 @@ public class PlayerManager {
                 clan.addMember(uuid);
                 this.whitlistedPlayers.add(uuid);
                 reloadWhitelist();
-                config.set("clans." + clanName + ".members." + uuid.toString(), Bukkit.getOfflinePlayer(uuid).getName());
+                config.set("clans." + clanName + "." + uuid.toString(), Bukkit.getOfflinePlayer(uuid).getName());
+                smpv1.saveConfig();
                 return true;
             }
         };
@@ -154,7 +153,8 @@ public class PlayerManager {
                 clan.removeMember(uuid);
                 this.whitlistedPlayers.remove(uuid);
                 reloadWhitelist();
-                config.set("clans." + clanName + ".members." + uuid.toString(), null);
+                config.set("clans." + clanName + "." + uuid.toString(), null);
+                smpv1.saveConfig();
                 return true;
             }
         };
@@ -166,6 +166,7 @@ public class PlayerManager {
         this.whitlistedPlayers.add(uuid);
         reloadWhitelist();
         config.set("söldner." + uuid.toString(), Bukkit.getOfflinePlayer(uuid).getName());
+        smpv1.saveConfig();
     }
 
     public void removeSöldner(UUID uuid) {
@@ -173,6 +174,7 @@ public class PlayerManager {
         this.whitlistedPlayers.remove(uuid);
         reloadWhitelist();
         config.set("söldner." + uuid.toString(), null);
+        smpv1.saveConfig();
     }
 
     public void addSpectator(UUID uuid) {
@@ -180,6 +182,7 @@ public class PlayerManager {
         this.whitlistedPlayers.add(uuid);
         reloadWhitelist();
         config.set("spectator." + uuid.toString(), Bukkit.getOfflinePlayer(uuid).getName());
+        smpv1.saveConfig();
     }
 
     public void removeSpectator(UUID uuid) {
@@ -187,6 +190,7 @@ public class PlayerManager {
         this.whitlistedPlayers.remove(uuid);
         reloadWhitelist();
         config.set("spectator." + uuid.toString(), null);
+        smpv1.saveConfig();
     }
 
 
