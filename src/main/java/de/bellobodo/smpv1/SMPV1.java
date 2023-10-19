@@ -3,6 +3,7 @@ package de.bellobodo.smpv1;
 import de.bellobodo.smpv1.commands.ClanCommand;
 import de.bellobodo.smpv1.commands.SpectatorCommand;
 import de.bellobodo.smpv1.commands.SöldnerCommand;
+import de.bellobodo.smpv1.manager.flagManager.FlagManager;
 import de.bellobodo.smpv1.manager.playerManager.PlayerManager;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,11 +12,14 @@ public final class SMPV1 extends JavaPlugin {
 
     private PlayerManager playerManager;
 
+    private FlagManager flagManager;
+
     @Override
     public void onLoad() {
         this.saveDefaultConfig();
 
         playerManager = new PlayerManager(this);
+        flagManager = new FlagManager(this);
     }
 
     @Override
@@ -35,5 +39,9 @@ public final class SMPV1 extends JavaPlugin {
 
     public PlayerManager getPlayerManager() {
         return playerManager;
+    }
+
+    public FlagManager getFlagManager() {
+        return flagManager;
     }
 }
