@@ -32,12 +32,13 @@ public class PlayerManager {
 
                 ConfigurationSection configurationSection1 = config.getConfigurationSection("clans." + clanNames);
                 if (configurationSection1 != null) {
-                    for (String clanMembers : configurationSection1.getKeys(false).toArray(new String[0])) {
-                        UUID clanMember = UUID.fromString(clanMembers);
-                        clan.addMember(clanMember);
-                        this.whitlistedPlayers.add(clanMember);
+                    for (String clanMember : configurationSection1.getKeys(false).toArray(new String[0])) {
+                        UUID clanMemberUUID = UUID.fromString(clanMember);
+                        clan.addMember(clanMemberUUID);
+                        this.playerRoles.put(clanMemberUUID, PlayerRole.CLAN);
+                        this.whitlistedPlayers.add(clanMemberUUID);
 
-                        Bukkit.getLogger().info("Clan Member hinzugefügt: " + clanMembers);
+                        Bukkit.getLogger().info("Clan Member hinzugefügt: " + clanMember);
                     }
                 }
                 this.clans.add(clan);
@@ -48,8 +49,10 @@ public class PlayerManager {
         configurationSection = config.getConfigurationSection("söldner");
         if (configurationSection != null) {
             for (String söldner : configurationSection.getKeys(false).toArray(new String[0])) {
-                this.söldner.add(UUID.fromString(söldner));
-                this.whitlistedPlayers.add(UUID.fromString(söldner));
+                UUID söldnerUUID = UUID.fromString(söldner);
+                this.söldner.add(söldnerUUID);
+                this.playerRoles.put(söldnerUUID, PlayerRole.SÖLDNER);
+                this.whitlistedPlayers.add(söldnerUUID);
 
                 Bukkit.getLogger().info("Söldner hinzugefügt: " + söldner);
             }
@@ -60,8 +63,10 @@ public class PlayerManager {
         configurationSection = config.getConfigurationSection("spectator");
         if (configurationSection != null) {
             for (String spectator : configurationSection.getKeys(false).toArray(new String[0])) {
-                this.spectators.add(UUID.fromString(spectator));
-                this.whitlistedPlayers.add(UUID.fromString(spectator));
+                UUID spectatorUUID = UUID.fromString(spectator);
+                this.spectators.add(spectatorUUID);
+                this.playerRoles.put(spectatorUUID, PlayerRole.SPECTATOR);
+                this.whitlistedPlayers.add(spectatorUUID);
 
                 Bukkit.getLogger().info("Spectator hinzugefügt: " + spectator);
             }
@@ -74,6 +79,8 @@ public class PlayerManager {
 
 
     private HashSet<UUID> whitlistedPlayers = new HashSet<>();
+
+    private HashMap<UUID,PlayerRole> playerRoles = new HashMap<>();
 
     private ArrayList<Clan> clans = new ArrayList<>();
 
@@ -136,6 +143,7 @@ public class PlayerManager {
             if (clan.getName().equals(clanName)) {
                 clan.addMember(uuid);
                 this.whitlistedPlayers.add(uuid);
+                this.playerRoles.put(uuid, PlayerRole.CLAN);
                 reloadWhitelist();
                 config.set("clans." + clanName + "." + uuid.toString(), Bukkit.getOfflinePlayer(uuid).getName());
                 smpv1.saveConfig();
@@ -152,6 +160,7 @@ public class PlayerManager {
             if (clan.getName().equals(clanName)) {
                 clan.removeMember(uuid);
                 this.whitlistedPlayers.remove(uuid);
+                this.playerRoles.remove(uuid);
                 reloadWhitelist();
                 config.set("clans." + clanName + "." + uuid.toString(), null);
                 smpv1.saveConfig();
@@ -164,6 +173,7 @@ public class PlayerManager {
     public void addSöldner(UUID uuid) {
         this.söldner.add(uuid);
         this.whitlistedPlayers.add(uuid);
+        this.playerRoles.put(uuid, PlayerRole.SÖLDNER);
         reloadWhitelist();
         config.set("söldner." + uuid.toString(), Bukkit.getOfflinePlayer(uuid).getName());
         smpv1.saveConfig();
@@ -172,6 +182,7 @@ public class PlayerManager {
     public void removeSöldner(UUID uuid) {
         this.söldner.remove(uuid);
         this.whitlistedPlayers.remove(uuid);
+        this.playerRoles.remove(uuid);
         reloadWhitelist();
         config.set("söldner." + uuid.toString(), null);
         smpv1.saveConfig();
@@ -180,6 +191,7 @@ public class PlayerManager {
     public void addSpectator(UUID uuid) {
         this.spectators.add(uuid);
         this.whitlistedPlayers.add(uuid);
+        this.playerRoles.put(uuid, PlayerRole.SPECTATOR);
         reloadWhitelist();
         config.set("spectator." + uuid.toString(), Bukkit.getOfflinePlayer(uuid).getName());
         smpv1.saveConfig();
@@ -188,6 +200,7 @@ public class PlayerManager {
     public void removeSpectator(UUID uuid) {
         this.spectators.remove(uuid);
         this.whitlistedPlayers.remove(uuid);
+        this.playerRoles.remove(uuid);
         reloadWhitelist();
         config.set("spectator." + uuid.toString(), null);
         smpv1.saveConfig();
@@ -216,11 +229,9 @@ public class PlayerManager {
         return null;
     }
 
+    @Nullable
     public PlayerRole getPlayerRole(UUID uuid) {
-        for (Clan clan : clans) if (clan.getMembers().contains(uuid)) return PlayerRole.CLAN;
-        if (söldner.contains(uuid)) return PlayerRole.SÖLDNER;
-        else if (spectators.contains(uuid)) return PlayerRole.SPECTATOR;
-        else return PlayerRole.UNSPECIFIED;
+        return playerRoles.get(uuid);
     }
 
     @Nullable
