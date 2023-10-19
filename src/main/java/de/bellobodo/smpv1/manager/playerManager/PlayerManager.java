@@ -1,11 +1,10 @@
-package de.bellobodo.smpv1.playerManager;
+package de.bellobodo.smpv1.manager.playerManager;
 
 import de.bellobodo.smpv1.SMPV1;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 import java.util.*;

@@ -3,11 +3,8 @@ package de.bellobodo.smpv1;
 import de.bellobodo.smpv1.commands.ClanCommand;
 import de.bellobodo.smpv1.commands.SpectatorCommand;
 import de.bellobodo.smpv1.commands.SöldnerCommand;
-import de.bellobodo.smpv1.playerManager.PlayerManager;
-import org.bukkit.Bukkit;
+import de.bellobodo.smpv1.manager.playerManager.PlayerManager;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SMPV1 extends JavaPlugin {

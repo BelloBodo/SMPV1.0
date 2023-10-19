@@ -1,4 +1,4 @@
-package de.bellobodo.smpv1.playerManager;
+package de.bellobodo.smpv1.manager.playerManager;
 
 import java.util.HashSet;
 import java.util.UUID;
