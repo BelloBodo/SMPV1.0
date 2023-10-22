@@ -7,7 +7,6 @@ spectator:
 
 #Edit the Flag Holder
 flagholder:
-defaultflagholder:
 
 #Whitelist
 whitelist: true

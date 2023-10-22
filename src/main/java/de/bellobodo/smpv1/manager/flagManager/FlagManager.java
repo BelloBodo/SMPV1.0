@@ -173,6 +173,9 @@ public class FlagManager {
                 giveEffects();
             }
         }.runTaskTimer(smpv1, 0, 180);
+
+        //Get active FlagHolder
+        //TODO
     }
 
     private FlagState flagState;
