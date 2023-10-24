@@ -241,7 +241,6 @@ public class PlayerManager {
 
     //Getter
 
-
     public ArrayList<Clan> getClans() {
         return clans;
     }

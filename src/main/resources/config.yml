@@ -5,6 +5,9 @@ söldner:
 
 spectator:
 
+#The current GameState
+gamestate: false
+
 #Edit the Flag Holder
 flagholder:
 

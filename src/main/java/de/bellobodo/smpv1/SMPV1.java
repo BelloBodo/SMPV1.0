@@ -14,12 +14,16 @@ public final class SMPV1 extends JavaPlugin {
 
     private FlagManager flagManager;
 
+    private boolean gameState;
+
     @Override
     public void onLoad() {
         this.saveDefaultConfig();
 
-        playerManager = new PlayerManager(this);
-        flagManager = new FlagManager(this);
+        this.playerManager = new PlayerManager(this);
+        this.flagManager = new FlagManager(this);
+
+        this.gameState = this.getConfig().getBoolean("gamestate", false);
     }
 
     @Override
@@ -43,5 +47,9 @@ public final class SMPV1 extends JavaPlugin {
 
     public FlagManager getFlagManager() {
         return flagManager;
+    }
+
+    public boolean getGameState() {
+        return gameState;
     }
 }

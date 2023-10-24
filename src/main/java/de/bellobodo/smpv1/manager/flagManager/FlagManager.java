@@ -5,6 +5,9 @@ import de.bellobodo.smpv1.manager.playerManager.PlayerRole;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -170,23 +173,54 @@ public class FlagManager {
         this.runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                giveEffects();
+                if (smpv1.getGameState()) giveEffects();
             }
         }.runTaskTimer(smpv1, 0, 180);
 
-        //Get active FlagHolder
-        //TODO
+        //Set active FlagHolder
+        String tempFlagHolderString = config.getString("flagholder");
+        if (tempFlagHolderString != null) {
+            UUID tempFlagHolder = UUID.fromString(tempFlagHolderString);
+            if (setFlagHolder(tempFlagHolder)) Bukkit.getLogger().info("Flagholder hinzugefügt: "
+                    + Bukkit.getOfflinePlayer(tempFlagHolder).getName());
+            else Bukkit.getLogger().info("Kein aktiver Flagholder konnte gefunden werden.");
+        }
+        else removeFlagHolder();
     }
 
-    private FlagState flagState;
+    private FlagState flagState = null;
 
-    private PlayerRole flagHolderPlayerRole;
+    private PlayerRole flagHolderPlayerRole = null;
 
-    private UUID flagHolder;
+    private UUID flagHolder = null;
 
     private HashSet<UUID> clanMembers = new HashSet<>();
 
-    //TODO Methoden hinzufügen
+    public boolean setFlagHolder(UUID uuid) {
+        PlayerRole playerRole = smpv1.getPlayerManager().getPlayerRole(uuid);
+
+        if (playerRole == null) return false;
+        if (playerRole == PlayerRole.SPECTATOR || playerRole == PlayerRole.UNSPECIFIED) return false;
+        if (playerRole == PlayerRole.SÖLDNER) this.clanMembers = new HashSet<>();
+        if (playerRole == PlayerRole.CLAN) {
+            HashSet<UUID> tempClanMembers = smpv1.getPlayerManager().getPlayersInClan(uuid);
+            tempClanMembers.remove(uuid);
+            this.clanMembers = tempClanMembers;
+        }
+
+        this.flagState = FlagState.HOLDED;
+        this.flagHolder = uuid;
+        this.flagHolderPlayerRole = playerRole;
+
+        return true;
+    }
+
+    public void removeFlagHolder() {
+        this.flagState = FlagState.NOT_GIVEN;
+        this.flagHolder = null;
+        this.flagHolderPlayerRole = null;
+        this.clanMembers = new HashSet<>();
+    }
 
     public void giveEffects() {
         if (flagState != FlagState.HOLDED) return;
