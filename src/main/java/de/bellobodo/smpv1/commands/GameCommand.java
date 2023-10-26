@@ -26,7 +26,7 @@ public class GameCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length < 1) {
+        if (args.length == 0) {
             sendUsage(sender);
             return true;
         }
@@ -43,8 +43,14 @@ public class GameCommand implements CommandExecutor {
                     gameCountdown.startCountdown(10);
                 }
                 break;
-            case "setborder":
-
+            case "setflagholder": //TODO Testen
+                if (args.length == 1) {
+                    sendUsage(sender);
+                    break;
+                }
+                smpv1.getFlagManager().setFlagHolder(Bukkit.getOfflinePlayer(args[1]).getUniqueId());
+                sender.sendMessage(smpv1.getPrefix() + " " + ChatColor.GRAY + args[1]
+                        + ChatColor.GREEN + "ist nun der Flaggenträger.");
                 break;
             default:
                 sendUsage(sender);
@@ -55,6 +61,6 @@ public class GameCommand implements CommandExecutor {
 
     public void sendUsage(CommandSender sender) {
         sender.sendMessage(smpv1.getPrefix() + ChatColor.BLUE + "Verwende: "
-                + ChatColor.GRAY + "/game (start/setborder) <Borderradius>" );
+                + ChatColor.GRAY + "/game (start/setflagholder) <Spielername>" );
     }
 }
