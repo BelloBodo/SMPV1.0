@@ -30,7 +30,7 @@ public class GameManager {
         Bukkit.getWorlds().forEach(worlds -> {
             WorldBorder worldBorder = worlds.getWorldBorder();
             worldBorder.setCenter(0, 0);
-            if (!gameIsActive) worldBorder.setSize(smpv1.getConfig().getInt("worldborderradius", 200) * 2);
+            if (!gameIsActive) worldBorder.setSize(smpv1.getConfig().getInt("worldborderradius", 32) * 2);
             else worldBorder.reset();
         });
     }
@@ -43,5 +43,6 @@ public class GameManager {
         this.gameIsActive = gameIsActive;
         smpv1.getConfig().set("gameisactive", gameIsActive);
         smpv1.saveConfig();
+        reloadBorder();
     }
 }

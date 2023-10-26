@@ -1,6 +1,7 @@
 package de.bellobodo.smpv1.commands;
 
 import de.bellobodo.smpv1.SMPV1;
+import de.bellobodo.smpv1.counters.GameCountdown;
 import de.bellobodo.smpv1.manager.gameManager.GameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -9,6 +10,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -34,13 +37,10 @@ public class GameCommand implements CommandExecutor {
                 if (gameManager.gameIsActive()) sender.sendMessage(smpv1.getPrefix()
                         + ChatColor.RED + "Das Spiel wurde bereits gestartet");
                 else {
-                    gameManager.setGameIsActive(true);
-                    sender.sendMessage(smpv1.getPrefix()
-                            + ChatColor.GREEN + "Das Spiel wurde gestartet");
-                    Bukkit.getOnlinePlayers().forEach(players -> {
-                        players.sendTitle(ChatColor.GOLD + "Spiel", ChatColor.YELLOW + "wurde gestartet.", 20, 3 * 20, 20);
-                        players.playSound(players.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_0, 1, 1);
-                    });
+                    int countdown = 10;
+
+                    GameCountdown gameCountdown = new GameCountdown(smpv1);
+                    gameCountdown.startCountdown(10);
                 }
                 break;
             case "setborder":
