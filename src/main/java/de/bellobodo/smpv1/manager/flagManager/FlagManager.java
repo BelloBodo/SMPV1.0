@@ -13,9 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.UUID;
+import java.util.*;
 
 public class FlagManager {
 
@@ -217,6 +215,16 @@ public class FlagManager {
         this.flagHolderPlayerRole = playerRole;
 
         return true;
+    }
+
+    public void setRandomFlagHolder() {
+        Player[] onlinePlayers = Bukkit.getOnlinePlayers().toArray(new Player[]{});
+        int random = new Random().nextInt(onlinePlayers.length);
+        setFlagHolder(onlinePlayers[random].getUniqueId());
+    }
+
+    public UUID getFlagHolder() {
+        return flagHolder;
     }
 
     public boolean isFlagHolder(UUID uuid) {

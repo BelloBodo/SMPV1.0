@@ -77,12 +77,7 @@
         <dependency>
             <groupId>com.github.BelloBodo</groupId>
             <artifactId>SpigotLibrary</artifactId>
-            <version>5ea3989db5</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.BelloBodo</groupId>
-            <artifactId>SpigotLibrary</artifactId>
-            <version>92fd0d1c40</version>
+            <version>7743ca8da2</version>
         </dependency>
     </dependencies>
 </project>

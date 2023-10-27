@@ -52,6 +52,14 @@ public class GameCommand implements CommandExecutor {
                 sender.sendMessage(smpv1.getPrefix() + " " + ChatColor.GRAY + args[1]
                         + ChatColor.GREEN + "ist nun der Flaggenträger.");
                 break;
+            case "getflagholder": //TODO Testen
+                if (args.length == 1) {
+                    sendUsage(sender);
+                    break;
+                }
+                sender.sendMessage(smpv1.getPrefix() + ChatColor.GRAY + Bukkit.getOfflinePlayer(smpv1.getFlagManager().getFlagHolder()).getName()
+                        + ChatColor.DARK_GRAY + "ist der Flaggenträger.");
+                break;
             default:
                 sendUsage(sender);
         }
@@ -61,6 +69,6 @@ public class GameCommand implements CommandExecutor {
 
     public void sendUsage(CommandSender sender) {
         sender.sendMessage(smpv1.getPrefix() + ChatColor.BLUE + "Verwende: "
-                + ChatColor.GRAY + "/game (start/setflagholder) <Spielername>" );
+                + ChatColor.GRAY + "/game (start/setflagholder/getflagholder) <Spielername>" );
     }
 }
