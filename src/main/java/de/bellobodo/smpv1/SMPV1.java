@@ -23,6 +23,8 @@ public final class SMPV1 extends JavaPlugin {
     @Override
     public void onLoad() {
         this.saveDefaultConfig();
+
+        Countdown2 countdown2 = new Countdown2(this);
     }
 
     @Override
