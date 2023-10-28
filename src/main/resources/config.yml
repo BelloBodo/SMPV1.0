@@ -11,7 +11,7 @@ spectator:
 
 #Edits for the Game
 gameisactive: false
-worldborderradius: 200
+worldborderradius: 32
 
 #Edit the Flag Holder
 flagholder: af9952ca-590a-47d5-8867-d0f4a1871af2
