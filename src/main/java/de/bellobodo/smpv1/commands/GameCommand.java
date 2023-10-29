@@ -26,6 +26,11 @@ public class GameCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!sender.hasPermission("smpv1.command.game")) {
+            sender.sendMessage(smpv1.getPrefix() + ChatColor.RED + "Du hast dafür keine Rechte.");
+            return true;
+        }
+
         if (args.length == 0) {
             sendUsage(sender);
             return true;

@@ -5,6 +5,7 @@ import de.bellobodo.smpv1.commands.GameCommand;
 import de.bellobodo.smpv1.commands.SpectatorCommand;
 import de.bellobodo.smpv1.commands.SöldnerCommand;
 import de.bellobodo.smpv1.listeners.JoinQuitListener;
+import de.bellobodo.smpv1.listeners.PlayerKillListener;
 import de.bellobodo.smpv1.manager.flagManager.FlagManager;
 import de.bellobodo.smpv1.manager.gameManager.GameManager;
 import de.bellobodo.smpv1.manager.playerManager.PlayerManager;
@@ -38,6 +39,7 @@ public final class SMPV1 extends JavaPlugin {
 
 
         Bukkit.getPluginManager().registerEvents(new JoinQuitListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerKillListener(this), this);
     }
 
     @Override

@@ -14,7 +14,7 @@ gameisactive: false
 worldborderradius: 32
 
 #Edit the Flag Holder
-flagholder: af9952ca-590a-47d5-8867-d0f4a1871af2
+flagholder: 08944516-039d-4b71-a969-7dafaffd5b39 #Dummy
 
 #Whitelist
 whitelist: true

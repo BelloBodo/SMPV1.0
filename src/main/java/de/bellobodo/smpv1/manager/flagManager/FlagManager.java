@@ -76,7 +76,7 @@ public class FlagManager {
             if (config.getInt("clanFlagHolderEffects.bad_luck") > 0) tempClanFlagHolderEffects.add
                     (new PotionEffect(PotionEffectType.UNLUCK, 10 * 20, config.getInt("clanFlagHolderEffects.bad_luck") - 1, false, false));
 
-            tempClanFlagHolderEffects.add(new PotionEffect(PotionEffectType.GLOWING, 10, 0, false, false));
+            tempClanFlagHolderEffects.add(new PotionEffect(PotionEffectType.GLOWING, 10 * 20, 0, false, false));
         }
 
         this.clanFlagHolderEffects = tempClanFlagHolderEffects;
@@ -228,6 +228,7 @@ public class FlagManager {
     }
 
     public boolean isFlagHolder(UUID uuid) {
+        if (flagHolder == null) return false;
         return flagHolder.equals(uuid);
     }
 

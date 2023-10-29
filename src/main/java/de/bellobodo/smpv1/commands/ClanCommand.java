@@ -34,6 +34,8 @@ public class ClanCommand implements CommandExecutor {
 
         switch (args[0].toLowerCase()) {
             case "create":
+                if (clanName.toLowerCase() == "söldner")
+
                 if (smpv1.getPlayerManager().createClan(clanName))
                     sender.sendMessage(smpv1.getPrefix() + ChatColor.GREEN + "Der Clan " + ChatColor.GRAY + args[1]
                             + ChatColor.GREEN + " wurde erstellt.");
