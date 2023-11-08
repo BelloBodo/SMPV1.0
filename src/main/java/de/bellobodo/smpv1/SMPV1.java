@@ -1,11 +1,9 @@
 package de.bellobodo.smpv1;
 
-import de.bellobodo.smpv1.commands.ClanCommand;
-import de.bellobodo.smpv1.commands.GameCommand;
-import de.bellobodo.smpv1.commands.SpectatorCommand;
-import de.bellobodo.smpv1.commands.SöldnerCommand;
+import de.bellobodo.smpv1.commands.*;
+import de.bellobodo.smpv1.listeners.EntityDamageListener;
 import de.bellobodo.smpv1.listeners.JoinQuitListener;
-import de.bellobodo.smpv1.listeners.PlayerKillListener;
+import de.bellobodo.smpv1.listeners.PlayerDeathListener;
 import de.bellobodo.smpv1.manager.flagManager.FlagManager;
 import de.bellobodo.smpv1.manager.gameManager.GameManager;
 import de.bellobodo.smpv1.manager.playerManager.PlayerManager;
@@ -36,10 +34,12 @@ public final class SMPV1 extends JavaPlugin {
         getCommand("spectator").setExecutor(new SpectatorCommand(this));
         getCommand("söldner").setExecutor(new SöldnerCommand(this));
         getCommand("game").setExecutor(new GameCommand(this));
+        getCommand("peace").setExecutor(new PeaceCommand(this));
 
 
         Bukkit.getPluginManager().registerEvents(new JoinQuitListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerKillListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerDeathListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new EntityDamageListener(this), this);
     }
 
     @Override

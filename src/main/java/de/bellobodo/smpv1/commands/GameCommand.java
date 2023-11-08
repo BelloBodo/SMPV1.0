@@ -48,22 +48,21 @@ public class GameCommand implements CommandExecutor {
                     gameCountdown.startCountdown(10);
                 }
                 break;
-            case "setflagholder": //TODO Testen
+            case "setflagholder":
                 if (args.length == 1) {
                     sendUsage(sender);
                     break;
                 }
                 smpv1.getFlagManager().setFlagHolder(Bukkit.getOfflinePlayer(args[1]).getUniqueId());
-                sender.sendMessage(smpv1.getPrefix() + " " + ChatColor.GRAY + args[1]
-                        + ChatColor.GREEN + "ist nun der Flaggenträger.");
+                sender.sendMessage(smpv1.getPrefix() + ChatColor.GRAY + args[1]
+                        + ChatColor.GREEN + " ist nun der Flaggenträger.");
                 break;
-            case "getflagholder": //TODO Testen
-                if (args.length == 1) {
-                    sendUsage(sender);
-                    break;
-                }
-                sender.sendMessage(smpv1.getPrefix() + ChatColor.GRAY + Bukkit.getOfflinePlayer(smpv1.getFlagManager().getFlagHolder()).getName()
-                        + ChatColor.DARK_GRAY + "ist der Flaggenträger.");
+            case "getflagholder":
+                UUID uuid = smpv1.getFlagManager().getFlagHolder();
+                if (uuid != null) sender.sendMessage(smpv1.getPrefix() + ChatColor.GRAY + Bukkit.getOfflinePlayer(uuid).getName()
+                        + ChatColor.GREEN + " ist der Flaggenträger.");
+                else sender.sendMessage(smpv1.getPrefix() + ChatColor.RED + "Es gibt aktuell keinen Flaggenträger.");
+
                 break;
             default:
                 sendUsage(sender);

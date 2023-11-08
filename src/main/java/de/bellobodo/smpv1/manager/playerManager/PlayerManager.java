@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PlayerManager {
 
@@ -43,6 +44,13 @@ public class PlayerManager {
                 this.clans.add(clan);
             }
         }
+
+        this.clans.forEach(clan -> {
+            Bukkit.getLogger().info("ClanName: " + clan.getName());
+            for (UUID uuids : clan.getMembers()) {
+                Bukkit.getLogger().info("ClanUUID: " + uuids.toString());
+            }
+        });
 
         //Create Söldner from Config
         configurationSection = config.getConfigurationSection("söldner");
@@ -212,7 +220,7 @@ public class PlayerManager {
         clanName = clanName.toUpperCase();
         for (Clan clan : clans) {
             if (clan.getName().equals(clanName)) {
-                return clan.getMembers();
+                return new HashSet<>(clan.getMembers());
             }
         }
         return null;
@@ -222,7 +230,7 @@ public class PlayerManager {
     public HashSet<UUID> getPlayersInClan(UUID uuid) {
         for (Clan clan : clans) {
             if (clan.getName().equals(getClanOfPlayer(uuid))) {
-                return clan.getMembers();
+                return new HashSet<>(clan.getMembers());
             }
         }
         return null;
@@ -230,19 +238,35 @@ public class PlayerManager {
 
     @Nullable
     public PlayerRole getPlayerRole(UUID uuid) {
+        if (!playerRoles.containsKey(uuid)) return null;
         return playerRoles.get(uuid);
     }
 
     @Nullable
     public String getClanOfPlayer(UUID uuid) {
-        for (Clan clan : clans) if (clan.getMembers().contains(uuid)) return clan.getName().toUpperCase();
-        return null;
+        final String[] clanName = {null};
+        clans.forEach(clan -> {
+            clan.getMembers().forEach(uuids -> {
+                if (uuids.toString().equals(uuid.toString())) clanName[0] = clan.getName();
+            });
+        });
+        return clanName[0];
     }
 
     //Getter
 
     public ArrayList<Clan> getClans() {
         return clans;
+    }
+
+    public ArrayList<UUID> getClanMembers() {
+        ArrayList<UUID> clanMembers = new ArrayList<>();
+
+        getClans().forEach(clan -> {
+            clanMembers.addAll(clan.getMembers());
+        });
+
+        return clanMembers;
     }
 
     public HashSet<UUID> getSöldner() {

@@ -2,6 +2,7 @@ package de.bellobodo.smpv1.listeners;
 
 import de.bellobodo.smpv1.SMPV1;
 import de.bellobodo.smpv1.manager.playerManager.PlayerManager;
+import de.bellobodo.smpv1.manager.playerManager.PlayerRole;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
@@ -23,36 +24,40 @@ public class JoinQuitListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (smpv1.getFlagManager().isFlagHolder(event.getPlayer().getUniqueId())) smpv1.getFlagManager().giveEffects();
-
         UUID playerUUID = event.getPlayer().getUniqueId();
+
+        if (smpv1.getFlagManager().isFlagHolder(playerUUID)) smpv1.getFlagManager().giveEffects();
+
         PlayerManager playerManager = smpv1.getPlayerManager();
         Player player = Bukkit.getPlayer(playerUUID);
         String playerName = "";
+        PlayerRole playerRole = playerManager.getPlayerRole(playerUUID);
 
+        if (playerRole != null) {
+            switch (playerRole) {
+                case CLAN:
+                    playerName = ChatColor.BOLD + ChatColor.DARK_GRAY.toString() + "["
+                            + ChatColor.DARK_BLUE + playerManager.getClanOfPlayer(playerUUID) + ChatColor.DARK_GRAY + "] "
+                            + ChatColor.GRAY + event.getPlayer().getName();
+                    player.setDisplayName(playerName);
+                    player.setPlayerListName(playerName);
+                    break;
+                case SÖLDNER:
+                    playerName = ChatColor.BOLD + ChatColor.DARK_GRAY.toString() + "["
+                            + ChatColor.DARK_GREEN + "SÖLDNER" + ChatColor.DARK_GRAY + "] "
+                            + ChatColor.GRAY + event.getPlayer().getName();
+                    player.setDisplayName(playerName);
+                    player.setPlayerListName(playerName);
+                    break;
+                case SPECTATOR:
+                    playerName = ChatColor.BOLD + ChatColor.DARK_GRAY.toString() + "["
+                            + ChatColor.WHITE + "SPECTATOR" + ChatColor.DARK_GRAY + "] "
+                            + ChatColor.GRAY + event.getPlayer().getName();
+                    player.setDisplayName(playerName);
+                    player.setPlayerListName(playerName);
+                    break;
+            }
 
-        switch (playerManager.getPlayerRole(playerUUID)) {
-            case CLAN:
-                playerName = ChatColor.BOLD + ChatColor.DARK_GRAY.toString() + "["
-                        + ChatColor.DARK_BLUE + playerManager.getClanOfPlayer(playerUUID) + ChatColor.DARK_GRAY + "] "
-                        + ChatColor.GRAY + event.getPlayer().getName();
-                player.setDisplayName(playerName);
-                player.setPlayerListName(playerName);
-                break;
-            case SÖLDNER:
-                playerName = ChatColor.BOLD + ChatColor.DARK_GRAY.toString() + "["
-                        + ChatColor.DARK_GREEN + "SÖLDNER" + ChatColor.DARK_GRAY + "] "
-                        + ChatColor.GRAY + event.getPlayer().getName();
-                player.setDisplayName(playerName);
-                player.setPlayerListName(playerName);
-                break;
-            case SPECTATOR:
-                playerName = ChatColor.BOLD + ChatColor.DARK_GRAY.toString() + "["
-                        + ChatColor.WHITE + "SPECTATOR" + ChatColor.DARK_GRAY + "] "
-                        + ChatColor.GRAY + event.getPlayer().getName();
-                player.setDisplayName(playerName);
-                player.setPlayerListName(playerName);
-                break;
         }
 
         event.setJoinMessage(event.getPlayer().getDisplayName() + ChatColor.RESET

@@ -12,6 +12,7 @@ spectator:
 #Edits for the Game
 gameisactive: false
 worldborderradius: 32
+gameispeaceful: false
 
 #Edit the Flag Holder
 flagholder:

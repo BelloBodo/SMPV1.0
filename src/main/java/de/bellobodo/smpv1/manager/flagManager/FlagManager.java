@@ -173,11 +173,12 @@ public class FlagManager {
         String tempFlagHolderString = config.getString("flagholder");
         if (tempFlagHolderString != null) {
             UUID tempFlagHolder = UUID.fromString(tempFlagHolderString);
-            if (setFlagHolder(tempFlagHolder)) Bukkit.getLogger().info("Flagholder hinzugefügt: "
-                    + Bukkit.getOfflinePlayer(tempFlagHolder).getName());
-            else Bukkit.getLogger().info("Kein aktiver Flagholder konnte gefunden werden.");
+            if (setFlagHolder(tempFlagHolder)) {
+                Bukkit.getLogger().info("Flagholder hinzugefügt: "
+                        + Bukkit.getOfflinePlayer(tempFlagHolder).getName());
+            }
+            else Bukkit.getLogger().info("Kein valider Flagholder konnte gefunden werden.");
         }
-        else removeFlagHolder();
 
         //Creation of BukkitRunnable
         this.runnable = new BukkitRunnable() {
@@ -196,31 +197,43 @@ public class FlagManager {
 
     private UUID flagHolder = null;
 
-    private HashSet<UUID> clanMembers = new HashSet<>();
+    private String clanName = "";
 
     public boolean setFlagHolder(UUID uuid) {
         PlayerRole playerRole = smpv1.getPlayerManager().getPlayerRole(uuid);
 
         if (playerRole == null) return false;
         if (playerRole == PlayerRole.SPECTATOR || playerRole == PlayerRole.UNSPECIFIED) return false;
-        if (playerRole == PlayerRole.SÖLDNER) this.clanMembers = new HashSet<>();
-        if (playerRole == PlayerRole.CLAN) {
-            HashSet<UUID> tempClanMembers = smpv1.getPlayerManager().getPlayersInClan(uuid);
-            tempClanMembers.remove(uuid);
-            this.clanMembers = tempClanMembers;
-        }
+
+        giveEffects();
 
         this.flagState = FlagState.HOLDED;
         this.flagHolder = uuid;
         this.flagHolderPlayerRole = playerRole;
+        if (playerRole == PlayerRole.CLAN) smpv1.getPlayerManager().getClanOfPlayer(uuid);
+
+        smpv1.getConfig().set("flagholder", uuid.toString());
+        smpv1.saveConfig();
 
         return true;
     }
 
-    public void setRandomFlagHolder() {
-        Player[] onlinePlayers = Bukkit.getOnlinePlayers().toArray(new Player[]{});
-        int random = new Random().nextInt(onlinePlayers.length);
-        setFlagHolder(onlinePlayers[random].getUniqueId());
+    public void setRandomFlagHolder(ArrayList<UUID> exceptedUUIDs) {
+        ArrayList<UUID> validPlayers = new ArrayList<>();
+        Bukkit.getOnlinePlayers().forEach(player -> validPlayers.add(player.getUniqueId()));
+        validPlayers.removeAll(smpv1.getPlayerManager().getSpectators());
+        validPlayers.removeAll(exceptedUUIDs);
+
+        int random;
+        UUID uuid;
+        if (!validPlayers.isEmpty()) {
+            random = new Random().nextInt(validPlayers.size());
+            uuid = validPlayers.get(random);
+        } else {
+            random = new Random().nextInt(exceptedUUIDs.size());
+            uuid = exceptedUUIDs.get(random);
+        }
+        setFlagHolder(validPlayers.get(random));
     }
 
     public UUID getFlagHolder() {
@@ -236,7 +249,6 @@ public class FlagManager {
         this.flagState = FlagState.NOT_GIVEN;
         this.flagHolder = null;
         this.flagHolderPlayerRole = null;
-        this.clanMembers = new HashSet<>();
     }
 
     public void giveEffects() {
@@ -250,7 +262,7 @@ public class FlagManager {
                     player.addPotionEffect(potionEffect);
                 }
 
-                HashSet<UUID> hashSet = smpv1.getPlayerManager().getPlayersInClan(flagHolder);
+                HashSet<UUID> hashSet = smpv1.getPlayerManager().getPlayersInClan(clanName);
                 hashSet.remove(flagHolder);
                 hashSet.removeIf(uuid -> !Bukkit.getOfflinePlayer(uuid).isOnline());
 

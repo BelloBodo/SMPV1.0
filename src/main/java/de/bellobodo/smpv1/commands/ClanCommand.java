@@ -30,11 +30,16 @@ public class ClanCommand implements CommandExecutor {
             return true;
         }
 
-        String clanName = args[1];
+        String clanName = args[1].toUpperCase();
 
         switch (args[0].toLowerCase()) {
             case "create":
-                if (clanName.toLowerCase() == "söldner")
+                if (clanName.equals("SÖLDNER")) {
+                    sender.sendMessage(smpv1.getPrefix() + ChatColor.RED + "Der Clan " + ChatColor.GRAY + args[1]
+                            + ChatColor.RED + " konnte nicht erstellt werden.");
+                    break;
+                }
+
 
                 if (smpv1.getPlayerManager().createClan(clanName))
                     sender.sendMessage(smpv1.getPrefix() + ChatColor.GREEN + "Der Clan " + ChatColor.GRAY + args[1]

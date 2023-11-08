@@ -7,7 +7,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.WorldBorder;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameCountdown extends Countdown {
 
@@ -27,13 +29,25 @@ public class GameCountdown extends Countdown {
 
     @Override
     public void onEnd() {
-        smpv1.getGameManager().setGameIsActive(true);
+        Bukkit.getWorlds().forEach(worlds -> {
+            WorldBorder worldBorder = worlds.getWorldBorder();
+            worldBorder.setSize(700, 20);
+        });
         Bukkit.getOnlinePlayers().forEach(players ->  {
             players.sendMessage(smpv1.getPrefix() + ChatColor.GREEN + "Das Spiel geht los");
             players.sendTitle(ChatColor.DARK_GREEN + "Das Spiel", ChatColor.GREEN + "geht los.", 20, 3 * 20, 20);
             players.playSound(players.getLocation(), Sound.ITEM_GOAT_HORN_SOUND_0, 1, 1);
         });
         smpv1.getFlagManager().giveEffects();
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Bukkit.getLogger().info("[SMPV1] Das Spiel ist nun aktiv.");
+                smpv1.getGameManager().setGameIsActive(true);
+            }
+        }.runTaskLaterAsynchronously(smpv1, 18 * 20);
+
     }
 
     @Override

@@ -17,6 +17,9 @@ public class GameManager {
         this.gameIsActive = smpv1.getConfig().getBoolean("gameisactive", true);
         Bukkit.getLogger().info("GameIsActive: " + gameIsActive);
 
+        this.gameIsPeaceful = smpv1.getConfig().getBoolean("gameispeaceful", false);
+        Bukkit.getLogger().info("Peace: " + gameIsPeaceful);
+
 
         reloadBorder();
 
@@ -26,15 +29,19 @@ public class GameManager {
 
     private boolean gameIsActive;
 
+    private boolean gameIsPeaceful;
+
+    //Methods for the Border
     public void reloadBorder() {
         Bukkit.getWorlds().forEach(worlds -> {
             WorldBorder worldBorder = worlds.getWorldBorder();
-            worldBorder.setCenter(0, 0);
+            worldBorder.setCenter(worlds.getSpawnLocation());
             if (!gameIsActive) worldBorder.setSize(smpv1.getConfig().getInt("worldborderradius", 32) * 2);
             else worldBorder.reset();
         });
     }
 
+    //Methods for gameIsActive
     public boolean gameIsActive() {
         return gameIsActive;
     }
@@ -44,5 +51,16 @@ public class GameManager {
         smpv1.getConfig().set("gameisactive", gameIsActive);
         smpv1.saveConfig();
         reloadBorder();
+    }
+
+    //Methods for gameIsPeaceful
+    public boolean gameIsPeaceful() {
+        return gameIsPeaceful;
+    }
+
+    public void setGameIsPeaceful(boolean gameIsPeaceful) {
+        this.gameIsPeaceful = gameIsPeaceful;
+        smpv1.getConfig().set("gameispeaceful", gameIsPeaceful);
+        smpv1.saveConfig();
     }
 }
