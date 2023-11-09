@@ -5,9 +5,6 @@ import de.bellobodo.smpv1.manager.playerManager.PlayerRole;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -275,7 +272,7 @@ public class FlagManager {
                 }
 
             }
-        } else if (flagHolderPlayerRole == PlayerRole.SÖLDNER) {
+        } else if (flagHolderPlayerRole == PlayerRole.SOELDNER) {
             if (Bukkit.getOfflinePlayer(flagHolder).isOnline()) {
                 Player player = Bukkit.getPlayer(flagHolder);
 

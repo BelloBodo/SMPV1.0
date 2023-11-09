@@ -8,7 +8,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class PlayerManager {
 
@@ -58,7 +57,7 @@ public class PlayerManager {
             for (String söldner : configurationSection.getKeys(false).toArray(new String[0])) {
                 UUID söldnerUUID = UUID.fromString(söldner);
                 this.söldner.add(söldnerUUID);
-                this.playerRoles.put(söldnerUUID, PlayerRole.SÖLDNER);
+                this.playerRoles.put(söldnerUUID, PlayerRole.SOELDNER);
                 this.whitlistedPlayers.add(söldnerUUID);
 
                 Bukkit.getLogger().info("Söldner hinzugefügt: " + söldner);
@@ -180,7 +179,7 @@ public class PlayerManager {
     public void addSöldner(UUID uuid) {
         this.söldner.add(uuid);
         this.whitlistedPlayers.add(uuid);
-        this.playerRoles.put(uuid, PlayerRole.SÖLDNER);
+        this.playerRoles.put(uuid, PlayerRole.SOELDNER);
         reloadWhitelist();
         config.set("söldner." + uuid.toString(), Bukkit.getOfflinePlayer(uuid).getName());
         smpv1.saveConfig();
