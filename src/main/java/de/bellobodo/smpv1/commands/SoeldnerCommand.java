@@ -7,11 +7,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class SöldnerCommand implements CommandExecutor {
+public class SoeldnerCommand implements CommandExecutor {
 
     private final SMPV1 smpv1;
 
-    public SöldnerCommand(SMPV1 smpv1) {
+    public SoeldnerCommand(SMPV1 smpv1) {
         this.smpv1 = smpv1;
     }
 

@@ -32,7 +32,7 @@ public final class SMPV1 extends JavaPlugin {
 
         getCommand("clan").setExecutor(new ClanCommand(this));
         getCommand("spectator").setExecutor(new SpectatorCommand(this));
-        getCommand("söldner").setExecutor(new SöldnerCommand(this));
+        getCommand("söldner").setExecutor(new SoeldnerCommand(this));
         getCommand("game").setExecutor(new GameCommand(this));
         getCommand("peace").setExecutor(new PeaceCommand(this));
 
