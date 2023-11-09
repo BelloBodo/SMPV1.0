@@ -1,7 +1,7 @@
 package de.bellobodo.smpv1;
 
 import de.bellobodo.smpv1.commands.*;
-import de.bellobodo.smpv1.listeners.CrystalPvPDisable;
+import de.bellobodo.smpv1.listeners.PlayerInteractListener;
 import de.bellobodo.smpv1.listeners.EntityDamageListener;
 import de.bellobodo.smpv1.listeners.JoinQuitListener;
 import de.bellobodo.smpv1.listeners.PlayerDeathListener;
@@ -41,7 +41,7 @@ public final class SMPV1 extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new JoinQuitListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerDeathListener(this), this);
         Bukkit.getPluginManager().registerEvents(new EntityDamageListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new CrystalPvPDisable(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(this), this);
     }
 
     @Override

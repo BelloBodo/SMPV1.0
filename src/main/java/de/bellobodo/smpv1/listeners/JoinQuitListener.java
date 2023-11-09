@@ -33,6 +33,7 @@ public class JoinQuitListener implements Listener {
         String playerName = "";
         PlayerRole playerRole = playerManager.getPlayerRole(playerUUID);
 
+        /*
         if (playerRole != null) {
             switch (playerRole) {
                 case CLAN:
@@ -57,8 +58,8 @@ public class JoinQuitListener implements Listener {
                     player.setPlayerListName(playerName);
                     break;
             }
-
         }
+         */
 
         event.setJoinMessage(event.getPlayer().getDisplayName() + ChatColor.RESET
                 + ChatColor.GREEN + " ist dem Server beigetreten.");
