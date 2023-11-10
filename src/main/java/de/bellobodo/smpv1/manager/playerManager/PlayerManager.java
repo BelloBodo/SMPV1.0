@@ -218,8 +218,8 @@ public class PlayerManager {
     public HashSet<UUID> getPlayersInClan(String clanName) {
         clanName = clanName.toUpperCase();
         for (Clan clan : clans) {
-            if (clan.getName().equals(clanName)) {
-                return new HashSet<>(clan.getMembers());
+            if (clan.getName().equalsIgnoreCase(clanName)) {
+                return clan.getMembers();
             }
         }
         return null;
@@ -228,7 +228,7 @@ public class PlayerManager {
     @Nullable
     public HashSet<UUID> getPlayersInClan(UUID uuid) {
         for (Clan clan : clans) {
-            if (clan.getName().equals(getClanOfPlayer(uuid))) {
+            if (clan.getName().equalsIgnoreCase(getClanOfPlayer(uuid))) {
                 return new HashSet<>(clan.getMembers());
             }
         }

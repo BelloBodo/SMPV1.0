@@ -40,13 +40,8 @@ public class GameCountdown extends Countdown {
         });
         smpv1.getFlagManager().giveEffects();
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Bukkit.getLogger().info("[SMPV1] Das Spiel ist nun aktiv.");
-                smpv1.getGameManager().setGameIsActive(true);
-            }
-        }.runTaskLaterAsynchronously(smpv1, 18 * 20);
+        Bukkit.getLogger().info("[SMPV1] Das Spiel ist nun aktiv.");
+        smpv1.getGameManager().setGameIsActive(true);
 
     }
 

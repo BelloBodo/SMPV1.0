@@ -23,7 +23,7 @@ public class Clan {
     }
 
     public HashSet<UUID> getMembers() {
-        return members;
+        return new HashSet<>(members);
     }
 
     public void removeMember(UUID uuid) {

@@ -207,6 +207,8 @@ public class FlagManager {
         this.flagState = FlagState.HOLDED;
         this.flagHolder = uuid;
         this.flagHolderPlayerRole = playerRole;
+        this.clanName = smpv1.getPlayerManager().getClanOfPlayer(uuid);
+        Bukkit.getLogger().info("neuer Clan: " + smpv1.getPlayerManager().getClanOfPlayer(uuid));
         if (playerRole == PlayerRole.CLAN) smpv1.getPlayerManager().getClanOfPlayer(uuid);
 
         smpv1.getConfig().set("flagholder", uuid.toString());
