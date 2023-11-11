@@ -31,7 +31,7 @@ public class SoeldnerCommand implements CommandExecutor {
 
         switch (args[0].toLowerCase()) {
             case "add":
-                smpv1.getPlayerManager().addSöldner(Bukkit.getOfflinePlayer(playerName).getUniqueId());
+                smpv1.getPlayerManager().addSöldner(Bukkit.getOfflinePlayer(playerName).getUniqueId());//pls don't use deprecated shit
                 sender.sendMessage(smpv1.getPrefix() + ChatColor.GREEN + "Der Söldner " + ChatColor.GRAY + args[1]
                         + ChatColor.GREEN + " wurde hinzugefügt.");
                 break;

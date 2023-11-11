@@ -28,7 +28,7 @@ public class GameCountdown extends Countdown {
     }
 
     @Override
-    public void onEnd() {
+    public void onEnd() {//Das Bukkit Static interface ist nicht besonders performant... einfach die SMPv1 instanz oben nutzen
         Bukkit.getWorlds().forEach(worlds -> {
             WorldBorder worldBorder = worlds.getWorldBorder();
             worldBorder.setSize(700, 20);

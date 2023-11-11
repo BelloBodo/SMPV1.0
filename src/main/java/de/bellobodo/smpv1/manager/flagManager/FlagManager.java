@@ -27,7 +27,7 @@ public class FlagManager {
     private final ArrayList<PotionEffect> söldnerEffects;
 
 
-    public FlagManager(SMPV1 smpv1) {
+    public FlagManager(SMPV1 smpv1) {// Das hier ist UNGLAUBLICH ineffizient... Aber ist egal weils ja nur einmal ausgeführt wird xD
         this.smpv1 = smpv1;
         this.config = smpv1.getConfig();
 
@@ -250,7 +250,7 @@ public class FlagManager {
         this.flagHolderPlayerRole = null;
     }
 
-    public void giveEffects() {
+    public void giveEffects() {//Umlaute in Variablennamen sind echt nich schön, achja und achtet auf euree Indendtations
         if (flagState != FlagState.HOLDED) return;
 
         if (flagHolderPlayerRole == PlayerRole.CLAN) {
@@ -258,10 +258,12 @@ public class FlagManager {
 
                 Player player =  Bukkit.getPlayer(flagHolder);
                 for (PotionEffect potionEffect:clanFlagHolderEffects) {
+                    assert player != null;//Achja: Bidde achtet darauf, dass ihr nullpointer explizit fangt. Sonst sucht ihr euch irgendwann tot xD
                     player.addPotionEffect(potionEffect);
                 }
 
                 HashSet<UUID> hashSet = smpv1.getPlayerManager().getPlayersInClan(clanName);
+                assert hashSet != null;
                 hashSet.remove(flagHolder);
                 hashSet.removeIf(uuid -> !Bukkit.getOfflinePlayer(uuid).isOnline());
 
@@ -269,6 +271,7 @@ public class FlagManager {
                     player = Bukkit.getPlayer(uuid);
 
                     for (PotionEffect potionEffect:clanMemberEffects) {
+                        assert player != null;
                         player.addPotionEffect(potionEffect);
                     }
                 }
@@ -279,6 +282,7 @@ public class FlagManager {
                 Player player = Bukkit.getPlayer(flagHolder);
 
                 for (PotionEffect potionEffect:söldnerEffects) {
+                    assert player != null;
                     player.addPotionEffect(potionEffect);
                 }
             }
